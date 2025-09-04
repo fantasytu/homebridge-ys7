@@ -1,27 +1,29 @@
 {
-  "name": "homebridge-plugin-name",
-  "displayName": "Plugin Name",
-  "type": "module",
-  "version": "1.0.0",
-  "private": true,
-  "description": "A short description about what your plugin does.",
-  "author": "Your Name",
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/USERNAME/GITHUB_PROJECT_NAME#readme",
+  "name": "homebridge-ys7",
+  "version": "1.1.0",
+  "private": false,
+  "description": "A homebridge plugin for Ezviz Cloud cameras in China.",
+  "keywords": [
+    "homebridge-plugin",
+    "ys7",
+    "ezviz",
+    "camera"
+  ],
+  "homepage": "https://github.com/fantasytu/homebridge-ys7#readme",
+  "bugs": {
+    "url": "https://github.com/fantasytu/homebridge-ys7/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git+https://github.com/fantasytu/homebridge-ys7.git"
   },
-  "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
-  },
-  "keywords": [
-    "homebridge-plugin"
-  ],
+  "license": "Apache-2.0",
+  "author": "Fantasy Tu",
+  "type": "module",
   "main": "dist/index.js",
-  "engines": {
-    "node": "^18.20.4 || ^20.18.0 || ^22.10.0",
-    "homebridge": "^1.8.0 || ^2.0.0-beta.0"
+  "types": "./dist/index.d.ts",
+  "directories": {
+    "test": "test"
   },
   "scripts": {
     "build": "rimraf ./dist && tsc",
@@ -30,7 +32,12 @@
     "watch": "npm run build && npm link && nodemon"
   },
   "dependencies": {
-    "homebridge-lib": "^7.1.4"
+    "@homebridge/camera-utils": "^3.0.0",
+    "axios": "^1.11.0",
+    "ertc-web": "^2.1.2",
+    "ffmpeg-for-homebridge": "^2.1.7",
+    "homebridge-lib": "^7.1.4",
+    "pick-port": "^2.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -42,5 +49,10 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.1"
-  }
+  },
+  "engines": {
+    "node": "^18.20.4 || ^20.18.0 || ^22.10.0 || ^24.10.0",
+    "homebridge": "^1.8.0 || ^2.0.0-beta.0"
+  },
+  "displayName": "Homebridge YS7"
 }

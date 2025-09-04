@@ -1,150 +1,487 @@
-import type { API, Characteristic, DynamicPlatformPlugin, Logging, PlatformAccessory, PlatformConfig, Service } from 'homebridge';
+// import type { Buffer } from 'node:buffer';
 
-import { ExamplePlatformAccessory } from './platformAccessory.js';
-import { PLATFORM_NAME, PLUGIN_NAME } from './settings.js';
+import type { API, CharacteristicSetCallback, CharacteristicValue, DynamicPlatformPlugin, Logging, PlatformAccessory, PlatformConfig } from 'homebridge';
 
-// This is only required when using Custom Services and Characteristics not support by HomeKit
-import { EveHomeKitTypes } from 'homebridge-lib/EveHomeKitTypes';
+import type { AutomationReturn } from './settings.js';
+import type { YS7PlatformConfig } from './settings.js';
 
-/**
- * HomebridgePlatform
- * This class is the main constructor for your plugin, this is where you should
- * parse the user config and discover/register accessories with Homebridge.
- */
-export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
-  public readonly Service: typeof Service;
-  public readonly Characteristic: typeof Characteristic;
+import { APIEvent, CharacteristicEventTypes, PlatformAccessoryEvent } from 'homebridge';
 
-  // this is used to track restored cached accessories
-  public readonly accessories: Map<string, PlatformAccessory> = new Map();
-  public readonly discoveredCacheUUIDs: string[] = [];
+import { PLUGIN_NAME, PLATFORM_NAME, VideoConfig } from './settings.js';
 
-  // This is only required when using Custom Services and Characteristics not support by HomeKit
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public readonly CustomServices: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public readonly CustomCharacteristics: any;
+import { Logger } from './utils/logger.js';
+import { StreamingDelegate } from './utils/streamingDelegate.js';
 
-  constructor(
-    public readonly log: Logging,
-    public readonly config: PlatformConfig,
-    public readonly api: API,
-  ) {
-    this.Service = api.hap.Service;
-    this.Characteristic = api.hap.Characteristic;
+import { YS7Api, LightStatus, ChargingStates, DefenceStatus } from './api/api.js';
 
-    // This is only required when using Custom Services and Characteristics not support by HomeKit
-    this.CustomServices = new EveHomeKitTypes(this.api).Services;
-    this.CustomCharacteristics = new EveHomeKitTypes(this.api).Characteristics;
+import { Device, DeviceResponse, DeviceEncryptionStatus, DeviceStatus, SupportedDeviceCategories, Capacity } from './@types/devices.js';
 
-    this.log.debug('Finished initializing platform:', this.config.name);
+import { ErrorMessages } from './api/errors.js';
 
-    // When this event is fired it means Homebridge has restored all cached accessories from disk.
-    // Dynamic Platform plugins should only register new accessories after this event was fired,
-    // in order to ensure they weren't added to homebridge already. This event can also be used
-    // to start discovery of new accessories.
-    this.api.on('didFinishLaunching', () => {
-      log.debug('Executed didFinishLaunching callback');
-      // run the method to discover / register your devices as accessories
-      this.discoverDevices();
-    });
+export class YS7Platform implements DynamicPlatformPlugin {
+  private readonly log: Logger;
+  private readonly api: API;
+  private readonly config: YS7PlatformConfig;
+  private readonly cachedAccessories: string[] = [];
+  private readonly accessories: Map<string, PlatformAccessory> = new Map();
+  private readonly motionTimers: Map<string, NodeJS.Timeout> = new Map();
+  private readonly doorbellTimers: Map<string, NodeJS.Timeout> = new Map();
+  private pollTimer?: NodeJS.Timeout;
+
+  constructor(log: Logging, config: PlatformConfig, api: API) {
+    this.log = new Logger(log);
+    this.api = api;
+    this.config = config as YS7PlatformConfig;
+
+    api.on(APIEvent.DID_FINISH_LAUNCHING, this.didFinishLaunching.bind(this));
   }
 
-  /**
-   * This function is invoked when homebridge restores cached accessories from disk at startup.
-   * It should be used to set up event handlers for characteristics and update respective values.
-   */
-  configureAccessory(accessory: PlatformAccessory) {
-    this.log.info('Loading accessory from cache:', accessory.displayName);
-
-    // add the restored accessory to the accessories cache, so we can track if it has already been registered
+  configureAccessory(accessory: PlatformAccessory): void {
+    this.log.debug('Configuring cached bridged accessory...', accessory.displayName);
     this.accessories.set(accessory.UUID, accessory);
+
+    this.cachedAccessories.push(accessory.UUID);
   }
 
-  /**
-   * This is an example method showing how to register discovered accessories.
-   * Accessories must only be registered once, previously created accessories
-   * must not be registered again to prevent "duplicate UUID" errors.
-   */
-  discoverDevices() {
-    // EXAMPLE ONLY
-    // A real plugin you would discover accessories from the local network, cloud services
-    // or a user-defined array in the platform config.
-    const exampleDevices = [
-      {
-        exampleUniqueId: 'ABCD',
-        exampleDisplayName: 'Bedroom',
-      },
-      {
-        exampleUniqueId: 'EFGH',
-        exampleDisplayName: 'Kitchen',
-      },
-      {
-        // This is an example of a device which uses a Custom Service
-        exampleUniqueId: 'IJKL',
-        exampleDisplayName: 'Backyard',
-        CustomService: 'AirPressureSensor',
-      },
-    ];
+  // configurate accessory information
+  async configureInfoService(device:Device, accessory: PlatformAccessory) {
+        
+    const infoService = accessory.getService(this.api.hap.Service.AccessoryInformation);
 
-    // loop over the discovered devices and register each one if it has not already been registered
-    for (const device of exampleDevices) {
-      // generate a unique id for the accessory this should be generated from
-      // something globally unique, but constant, for example, the device serial
-      // number or MAC address
-      const uuid = this.api.hap.uuid.generate(device.exampleUniqueId);
+    if (infoService) {
+      infoService.setCharacteristic(this.api.hap.Characteristic.Manufacturer, 'Ezviz');
+      infoService.setCharacteristic(this.api.hap.Characteristic.Model, device.model);
+      infoService.setCharacteristic(this.api.hap.Characteristic.SerialNumber, device.serial);
+      infoService.setCharacteristic(this.api.hap.Characteristic.FirmwareRevision, device.firmware);
+    }
+  }
 
-      // see if an accessory with the same uuid has already been registered and restored from
-      // the cached devices we stored in the `configureAccessory` method above
-      const existingAccessory = this.accessories.get(uuid);
+  // configure hksv streaming
+  async configureHKSV(device: Device, api:YS7Api, accessory: PlatformAccessory) {
+    
+    this.log.debug('get streaming url', device.name);
+    const streamURL = await api.getStreamAddress(device.serial);
 
-      if (existingAccessory) {
-        // the accessory already exists
-        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+    const videoConfig: VideoConfig = {
+      stream: streamURL,
+      prebuffer: true,
+    };
 
-        // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. e.g.:
-        // existingAccessory.context.device = device;
-        // this.api.updatePlatformAccessories([existingAccessory]);
+    const delegate = new StreamingDelegate(this.log, this.api, device, videoConfig, this.api.hap);
 
-        // create the accessory handler for the restored accessory
-        // this is imported from `platformAccessory.ts`
-        new ExamplePlatformAccessory(this, existingAccessory);
+    accessory.configureController(delegate.controller);
 
-        // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, e.g.:
-        // remove platform accessories when no longer present
-        // this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [existingAccessory]);
-        // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
-      } else {
-        // the accessory does not yet exist, so we need to create it
-        this.log.info('Adding new accessory:', device.exampleDisplayName);
+    // add motion sensor after accessory.configureController. Secure Video creates it own linked motion service
+    this.log.debug('add motion service', device.name);
 
-        // create a new accessory
-        const accessory = new this.api.platformAccessory(device.exampleDisplayName, uuid);
+    const motionSensorService = new this.api.hap.Service.MotionSensor(device.name);
 
-        // store a copy of the device object in the `accessory.context`
-        // the `context` property can be used to store any data about the accessory you may need
-        accessory.context.device = device;
+    if (!accessory.getService(this.api.hap.Service.MotionSensor)) {
+      accessory.addService(motionSensorService);
+    } else {
+      this.log.debug('found motion sensor service', device.name);
+    }
+  }
 
-        // create the accessory handler for the newly create accessory
-        // this is imported from `platformAccessory.ts`
-        new ExamplePlatformAccessory(this, accessory);
+  async configureBatteryService(device: Device, api:YS7Api, accessory: PlatformAccessory) {
+    const batteryService = new this.api.hap.Service.Battery(device.name);
 
-        // link the accessory to your platform
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
-      }
+    batteryService
+      .getCharacteristic(this.api.hap.Characteristic.StatusLowBattery)
+      .on(CharacteristicEventTypes.GET, async (callback: CharacteristicSetCallback) => {
+        const status = (await api.getCameraStatus(device.serial)).battryStatus;
+        if (status !== undefined) {
+          if (status <= 20) {
+            callback(null, this.api.hap.Characteristic.StatusLowBattery.BATTERY_LEVEL_LOW);
+          } else {
+            callback(null, this.api.hap.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL);
+          }
+        } else {
+          callback(null, this.api.hap.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL);
+        }
+      });
 
-      // push into discoveredCacheUUIDs
-      this.discoveredCacheUUIDs.push(uuid);
+    batteryService
+      .getCharacteristic(this.api.hap.Characteristic.BatteryLevel)
+      .on(CharacteristicEventTypes.GET, async (callback: CharacteristicSetCallback) => {
+        const status = (await api.getCameraStatus(device.serial)).battryStatus;
+        if (status !== undefined) {
+          callback(null, status);
+        } else {
+          callback(null, 100);
+        }
+      });
+
+    batteryService
+      .getCharacteristic(this.api.hap.Characteristic.ChargingState)
+      .on(CharacteristicEventTypes.GET, async (callback: CharacteristicSetCallback) => {
+        const state = (await api.getChargingState(device.serial)).valueInfo.powerStatus;
+        switch (state) {
+        case ChargingStates.NOT_CHARGING, ChargingStates.FULLY_CHARGED:
+          callback(null, this.api.hap.Characteristic.ChargingState.NOT_CHARGING);
+          break;
+        case ChargingStates.CHARGING:
+          callback(null, this.api.hap.Characteristic.ChargingState.CHARGING);
+          break;
+        default:
+          callback(null, this.api.hap.Characteristic.ChargingState.NOT_CHARGEABLE);
+          break;
+        }
+      });
+
+    if (!accessory.getService(this.api.hap.Service.Battery)) {
+      accessory.addService(batteryService);
+    } else {
+      this.log.debug('found battery service', device.name);
+    }
+  }
+  
+  async configreIndicatorService(device: Device, api:YS7Api, accessory: PlatformAccessory) {
+    const indicator = new this.api.hap.Service.Lightbulb(`${device.name} Indicator`);
+
+    indicator
+      .getCharacteristic(this.api.hap.Characteristic.On)
+      .on(CharacteristicEventTypes.GET, async (callback: CharacteristicSetCallback) => {
+        const status = (await api.getLightStatus(device.serial)).enable;
+        callback(null, status === LightStatus.ON);
+      })
+      .on(CharacteristicEventTypes.SET, (state: CharacteristicValue, callback: CharacteristicSetCallback) => {
+        if (state as boolean) {
+          api.turnLightOn(device.serial);
+        } else {
+          api.turnLightOff(device.serial);
+        }
+        callback();
+      });
+      
+    if (!accessory.getService(this.api.hap.Service.Lightbulb)) {
+      accessory.addService(indicator);
+    } else {
+      this.log.debug('found indicator service', device.name);
+    }
+  }
+
+  async configureDoorbellService(device: Device, api:YS7Api, accessory: PlatformAccessory) {
+    const doorbell = new this.api.hap.Service.Doorbell(`${device.name} Doorbell`);
+
+    if (!accessory.getService(this.api.hap.Service.Doorbell)) {
+      accessory.addService(doorbell);
+    } else {
+      this.log.debug('found doorbell sensor service', device.name);
     }
 
-    // you can also deal with accessories from the cache which are no longer present by removing them from Homebridge
-    // for example, if your plugin logs into a cloud account to retrieve a device list, and a user has previously removed a device
-    // from this cloud account, then this device will no longer be present in the device list but will still be in the Homebridge cache
-    for (const [uuid, accessory] of this.accessories) {
-      if (!this.discoveredCacheUUIDs.includes(uuid)) {
-        this.log.info('Removing existing accessory from cache:', accessory.displayName);
+    const doorbellTrigger = new this.api.hap.Service.Switch(`${device.name} Doorbell Trigger`, 'DoorbellTrigger');
+    doorbellTrigger
+      .getCharacteristic(this.api.hap.Characteristic.On)
+      .on(CharacteristicEventTypes.SET, (state: CharacteristicValue, callback: CharacteristicSetCallback) => {
+        this.doorbellHandler(accessory, state as boolean);
+        callback();
+      });
+    accessory.addService(doorbellTrigger);
+  }
+
+  // TODO: add defence switch
+  // async configureDefenceService(device: Device, api:YS7Api, accessory: PlatformAccessory) {
+  // }
+
+  async setupAccessory(api: YS7Api, accessory: PlatformAccessory): Promise<void> {
+    accessory.on(PlatformAccessoryEvent.IDENTIFY, () => {
+      this.log.debug('Identify requested.', accessory.displayName);
+    });
+
+    const device = accessory.context.device as Device;
+
+    // determine camera features
+    const cameraConfig = {
+      battery: device.capacities.get(Capacity.BATTERY) === '1',
+      indicator: device.capacities.get(Capacity.INDICATOR) === '1',
+      // defence: capacities.get(Capacities.DEFENCE) === 1,
+      // talk: capacities.get(Capacities.MICROPHONE) === 1,
+      doorbell: undefined,
+    };
+
+    this.configureInfoService(device, accessory);
+
+    await this.configureHKSV(device, api, accessory);
+
+    if (cameraConfig.battery) { 
+      await this.configureBatteryService(device, api, accessory);
+    }
+
+    if (cameraConfig.doorbell) {
+      await this.configureDoorbellService(device, api, accessory);
+    }
+
+    if (cameraConfig.indicator) {
+      await this.configreIndicatorService(device, api, accessory);
+    }
+  }
+
+  private doorbellHandler(accessory: PlatformAccessory, active = true): AutomationReturn {
+    const doorbell = accessory.getService(this.api.hap.Service.Doorbell);
+    if (doorbell) {
+      this.log.debug(`Switch doorbell ${active ? 'on.' : 'off.'}`, accessory.displayName);
+      const timeout = this.doorbellTimers.get(accessory.UUID);
+      if (timeout) {
+        clearTimeout(timeout);
+        this.doorbellTimers.delete(accessory.UUID);
+      }
+      const doorbellTrigger = accessory.getServiceById(this.api.hap.Service.Switch, 'DoorbellTrigger');
+      if (active) {
+        doorbell.updateCharacteristic(this.api.hap.Characteristic.ProgrammableSwitchEvent, this.api.hap.Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS);
+        if (doorbellTrigger) {
+          doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, true);
+          const timeoutConfig = 1;
+          const timer = setTimeout(() => {
+            this.log.debug('Doorbell handler timeout.', accessory.displayName);
+            this.doorbellTimers.delete(accessory.UUID);
+            doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
+          }, timeoutConfig * 1000);
+          this.doorbellTimers.set(accessory.UUID, timer);
+        }
+        return {
+          error: false,
+          message: 'Doorbell switched on.',
+        };
+      } else {
+        if (doorbellTrigger) {
+          doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
+        }
+        return {
+          error: false,
+          message: 'Doorbell switched off.',
+        };
+      }
+    } else {
+      return {
+        error: true,
+        message: 'Doorbell is not enabled for this camera.',
+      };
+    }
+  }
+
+  private motionHandler(accessory: PlatformAccessory, active = true, minimumTimeout = 0): AutomationReturn {
+    const motionSensor = accessory.getService(this.api.hap.Service.MotionSensor);
+    if (motionSensor) {
+      this.log.debug(`Switch motion detect ${active ? 'on.' : 'off.'}`, accessory.displayName);
+      const timeout = this.motionTimers.get(accessory.UUID);
+      if (timeout) {
+        clearTimeout(timeout);
+        this.motionTimers.delete(accessory.UUID);
+      }
+      const motionTrigger = accessory.getServiceById(this.api.hap.Service.Switch, 'MotionTrigger');
+      if (active) {
+        motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, true);
+        if (motionTrigger) {
+          motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, true);
+        }
+        // if (!timeout && config?.motionDoorbell) {
+        //   this.doorbellHandler(accessory, true);
+        // }
+        let timeoutConfig = 1;
+        if (timeoutConfig < minimumTimeout) {
+          timeoutConfig = minimumTimeout;
+        }
+        if (timeoutConfig > 0) {
+          const timer = setTimeout(() => {
+            this.log.debug('Motion handler timeout.', accessory.displayName);
+            this.motionTimers.delete(accessory.UUID);
+            motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, false);
+            if (motionTrigger) {
+              motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
+            }
+          }, timeoutConfig * 1000);
+          this.motionTimers.set(accessory.UUID, timer);
+        }
+        return {
+          error: false,
+          message: 'Motion switched on.',
+          cooldownActive: !!timeout,
+        };
+      } else {
+        motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, false);
+        if (motionTrigger) {
+          motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
+        }
+        // if (config?.motionDoorbell) {
+        //   this.doorbellHandler(accessory, false);
+        // }
+        return {
+          error: false,
+          message: 'Motion switched off.',
+        };
+      }
+    } else {
+      return {
+        error: true,
+        message: 'Motion is not enabled for this camera.',
+      };
+    }
+  }
+
+  private async formatDevices(api: YS7Api, devices: DeviceResponse[]): Promise<Device[]> {
+    const formatedDevices: Device[] = [];
+    const shouldSkipOffline = this.config.skipOfflineDevices ?? false;
+    
+    for (const device of devices) {
+      // check encryption status
+      const deviceInfo = await api.getCameraInfo(device.deviceSerial);
+
+      if (deviceInfo.isEncrypt === DeviceEncryptionStatus.ENCRYPTED) {
+        api.disableEncryption(device.deviceSerial);
+        this.log.info('Turning off encryption for homekit streaming', device.deviceName);
+      }
+
+      // filter unsupported, offline and encrypted devices
+      const capacitiesObject = JSON.parse(deviceInfo.supportExt);
+      const supported = device.parentCategory && Object.values(SupportedDeviceCategories).includes(device.parentCategory as SupportedDeviceCategories);
+      const skipOffline = shouldSkipOffline && device.status === DeviceStatus.OFFLINE;
+
+      if (!supported) {
+        this.log.info(`${ErrorMessages.UNSUPPORTED_DEVICE_CATEGORY} ${device.parentCategory} : ${device.deviceName}`);
+      }
+      
+      if (skipOffline) {
+        this.log.info(`${ErrorMessages.OFFLINE_DEVICE}: ${device.deviceName}`);
+      }
+
+      formatedDevices.push({
+        id: this.api.hap.uuid.generate(device.id),
+        serial: device.deviceSerial,
+        name: device.deviceName,
+        model: device.deviceType,
+        status: device.status as DeviceStatus,
+        defence: device.defence as DefenceStatus,
+        firmware: [...device.deviceVersion.matchAll(/\d+/g)].map(a => parseInt(a[0])).join('.'),
+        category: device.parentCategory,
+        capacities: new Map<string, string>(Object.entries(capacitiesObject)),
+      } as Device);
+    }
+
+    return formatedDevices;
+  }
+
+  async discoverDevices(api: YS7Api) {
+    const cameras = await api.getCameras();
+
+    if (!cameras) {
+      this.log.error(ErrorMessages.NO_DEVICE);
+      return;
+    }
+
+    const devices = await this.formatDevices(api, cameras);
+    this.log.debug(`Found ${devices.length} devices`);
+
+    for (const device of devices) {
+      const existingAccessory = this.accessories.get(device.id);
+      if (existingAccessory) {
+        this.log.debug(`Restoring existing ${device.category} from cache: ${existingAccessory.displayName}`);
+        existingAccessory.context.device = device;
+        this.setupAccessory(api, existingAccessory);
+      } else {
+        this.log.debug(`Adding new ${device.category}: ${device.name}`);
+        const accessory = new this.api.platformAccessory(device.name, device.id);
+        accessory.context.device = device;
+        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        this.accessories.set(accessory.UUID, accessory);
+        this.setupAccessory(api, accessory);
+      }
+
+      this.cachedAccessories.push(device.id);
+    }
+
+    // Remove accessories that are no longer available
+    for (const [, accessory] of this.accessories) {
+      if (!this.cachedAccessories.includes(accessory.UUID)) {
+        this.log.debug('Removing existing accessory from cache:', accessory.displayName);
         this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
+    }
+  }
+
+  async didFinishLaunching(): Promise<void> {
+    const ys7API = new YS7Api(this.config, this.log);
+    await this.discoverDevices(ys7API);
+
+    // polling
+    this.startPolling(ys7API);
+  }
+
+  private startPolling(api: YS7Api) {
+    const intervalSeconds = Math.max(10, this.config.pollingInterval ?? 60);
+    
+    this.log.debug(`Starting polling every ${intervalSeconds}s`);
+
+    this.pollTimer = setInterval(() => {
+      this.pollOnce(api).catch(err => this.log.error('Polling error', String(err)));
+    }, intervalSeconds * 1000);
+  }
+
+  private async pollOnce(api: YS7Api): Promise<void> {
+    for (const [, accessory] of this.accessories) {
+      const device = accessory.context.device as Device;
+      if (!device) {
+        continue;
+      }
+      await this.pollBatteryForAccessory(api, accessory, device);
+      await this.pollIndicatorForAccessory(api, accessory, device);
+    }
+  }
+
+  private async pollBatteryForAccessory(api: YS7Api, accessory: PlatformAccessory, device: Device): Promise<void> {
+    const batteryService = accessory.getService(this.api.hap.Service.Battery);
+
+    if (!batteryService) {
+      return;
+    }
+
+    try {
+      const status = (await api.getCameraStatus(device.serial)).battryStatus;
+      if (status !== undefined) {
+        batteryService.updateCharacteristic(this.api.hap.Characteristic.BatteryLevel, status);
+        const low = status <= 20
+          ? this.api.hap.Characteristic.StatusLowBattery.BATTERY_LEVEL_LOW
+          : this.api.hap.Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL;
+        batteryService.updateCharacteristic(this.api.hap.Characteristic.StatusLowBattery, low);
+        this.log.debug(`Updating battery level: ${status}`);
+      }
+    } catch {
+      this.log.debug('Failed to poll battery status', accessory.displayName);
+    }
+
+    try {
+      const state = (await api.getChargingState(device.serial)).valueInfo.powerStatus;
+      switch (state) {
+      case ChargingStates.NOT_CHARGING:
+      case ChargingStates.FULLY_CHARGED:
+        batteryService.updateCharacteristic(this.api.hap.Characteristic.ChargingState, this.api.hap.Characteristic.ChargingState.NOT_CHARGING);
+        break;
+      case ChargingStates.CHARGING:
+        batteryService.updateCharacteristic(this.api.hap.Characteristic.ChargingState, this.api.hap.Characteristic.ChargingState.CHARGING);
+        break;
+      default:
+        batteryService.updateCharacteristic(this.api.hap.Characteristic.ChargingState, this.api.hap.Characteristic.ChargingState.NOT_CHARGEABLE);
+        break;
+      }
+      this.log.debug(`Updating charging state: ${state}`);
+    } catch {
+      this.log.debug('Failed to poll charging state', accessory.displayName);
+    }
+  }
+
+  private async pollIndicatorForAccessory(api: YS7Api, accessory: PlatformAccessory, device: Device): Promise<void> {
+    const indicatorService = accessory.getService(this.api.hap.Service.Lightbulb);
+
+    if (!indicatorService) {
+      return;
+    }
+
+    try {
+      const status = (await api.getLightStatus(device.serial)).enable;
+      indicatorService.updateCharacteristic(this.api.hap.Characteristic.On, status === LightStatus.ON);
+      this.log.debug(`Updating indicator status: ${status}`);
+    } catch {
+      this.log.debug('Failed to poll indicator status', accessory.displayName);
     }
   }
 }

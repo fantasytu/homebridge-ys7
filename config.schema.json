@@ -1,16 +1,40 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "YS7Platform",
   "pluginType": "platform",
   "singular": true,
   "strictValidation": false,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "appKey": {
+        "title": "appKey",
         "type": "string",
-        "required": true,
-        "default": "Example Dynamic Platform"
+        "required": true
+      },
+      "appSecret": {
+        "title": "appSecret",
+        "type": "string",
+        "required": true
+      },
+      "videoProcessor": {
+        "title": "videoProcessor",
+        "type": "string",
+        "required": false,
+        "default": "ffmpeg"
+      },
+      "skipOfflineDevices": {
+        "title": "skipOfflineDevices",
+        "type": "boolean",
+        "required": false,
+        "default": true
+      },
+      "pollingInterval": {
+        "title": "pollingInterval (seconds)",
+        "type": "number",
+        "required": false,
+        "default": 60,
+        "minimum": 10,
+        "description": "How often to poll devices for battery and indicator state."
       }
     }
   }
