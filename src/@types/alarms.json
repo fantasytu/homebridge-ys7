@@ -1,0 +1,3347 @@
+[
+  {
+    "alarmType": "pir",
+    "alarmCode": "10000",
+    "alarmName": "人体感应事件"
+  },
+  {
+    "alarmType": "callhelp",
+    "alarmCode": "10001",
+    "alarmName": "紧急遥控按钮事件"
+  },
+  {
+    "alarmType": "motiondetect",
+    "alarmCode": "10002",
+    "alarmName": "移动侦测告警"
+  },
+  {
+    "alarmType": "babycry",
+    "alarmCode": "10003",
+    "alarmName": "检测到宝宝哭声"
+  },
+  {
+    "alarmType": "magnetometer",
+    "alarmCode": "10004",
+    "alarmName": "门磁告警"
+  },
+  {
+    "alarmType": "fire",
+    "alarmCode": "10005",
+    "alarmName": "烟感告警"
+  },
+  {
+    "alarmType": "gas",
+    "alarmCode": "10006",
+    "alarmName": "可燃气体告警"
+  },
+  {
+    "alarmType": "SosMsg",
+    "alarmCode": "10007",
+    "alarmName": "SOS告警"
+  },
+  {
+    "alarmType": "waterlogging",
+    "alarmCode": "10008",
+    "alarmName": "水浸告警"
+  },
+  {
+    "alarmType": "emergency",
+    "alarmCode": "10009",
+    "alarmName": "紧急按钮告警"
+  },
+  {
+    "alarmType": "infrared",
+    "alarmCode": "10010",
+    "alarmName": "人体感应告警"
+  },
+  {
+    "alarmType": "shelteralarm",
+    "alarmCode": "10011",
+    "alarmName": "遮挡告警"
+  },
+  {
+    "alarmType": "videoloss",
+    "alarmCode": "10012",
+    "alarmName": "视频丢失"
+  },
+  {
+    "alarmType": "linedetection",
+    "alarmCode": "10013",
+    "alarmName": "越界侦测"
+  },
+  {
+    "alarmType": "fielddetection",
+    "alarmCode": "10014",
+    "alarmName": "区域入侵"
+  },
+  {
+    "alarmType": "facedetection",
+    "alarmCode": "10015",
+    "alarmName": "人脸检测事件"
+  },
+  {
+    "alarmType": "doorbell",
+    "alarmCode": "10016",
+    "alarmName": "智能门铃告警"
+  },
+  {
+    "alarmType": "curtain",
+    "alarmCode": "10018",
+    "alarmName": "幕帘告警"
+  },
+  {
+    "alarmType": "move_magnetometer",
+    "alarmCode": "10019",
+    "alarmName": "单体门磁告警"
+  },
+  {
+    "alarmType": "scenechangedetection",
+    "alarmCode": "10020",
+    "alarmName": "场景变更侦测"
+  },
+  {
+    "alarmType": "defocus",
+    "alarmCode": "10021",
+    "alarmName": "虚焦侦测"
+  },
+  {
+    "alarmType": "audioexception",
+    "alarmCode": "10022",
+    "alarmName": "音频异常侦测"
+  },
+  {
+    "alarmType": "leftdetection",
+    "alarmCode": "10023",
+    "alarmName": "物品遗留侦测"
+  },
+  {
+    "alarmType": "takedetection",
+    "alarmCode": "10024",
+    "alarmName": "物品拿取侦测"
+  },
+  {
+    "alarmType": "parkingdetection",
+    "alarmCode": "10025",
+    "alarmName": "非法停车侦测"
+  },
+  {
+    "alarmType": "highdensitydetection",
+    "alarmCode": "10026",
+    "alarmName": "人员聚集侦测"
+  },
+  {
+    "alarmType": "loiterdetection",
+    "alarmCode": "10027",
+    "alarmName": "有人徘徊"
+  },
+  {
+    "alarmType": "rundetection",
+    "alarmCode": "10028",
+    "alarmName": "快速移动侦测"
+  },
+  {
+    "alarmType": "enterareadetection",
+    "alarmCode": "10029",
+    "alarmName": "进入区域侦测"
+  },
+  {
+    "alarmType": "exitareadetection",
+    "alarmCode": "10030",
+    "alarmName": "离开区域侦测"
+  },
+  {
+    "alarmType": "mag_gim",
+    "alarmCode": "10031",
+    "alarmName": "磁干扰告警"
+  },
+  {
+    "alarmType": "UnderVoltage",
+    "alarmCode": "10032",
+    "alarmName": "电池电量低告警"
+  },
+  {
+    "alarmType": "intrusion",
+    "alarmCode": "10033",
+    "alarmName": "闯入告警"
+  },
+  {
+    "alarmType": "fireNoRegulation",
+    "alarmCode": "10034",
+    "alarmName": "人离火告警"
+  },
+  {
+    "alarmType": "baby_motion",
+    "alarmCode": "10035",
+    "alarmName": "婴儿大动作告警"
+  },
+  {
+    "alarmType": "PowerChange",
+    "alarmCode": "10036",
+    "alarmName": "电源切换告警"
+  },
+  {
+    "alarmType": "hightemperature",
+    "alarmCode": "10037",
+    "alarmName": "温度过高告警"
+  },
+  {
+    "alarmType": "lowtemperature",
+    "alarmCode": "10038",
+    "alarmName": "温度过低告警"
+  },
+  {
+    "alarmType": "highhumidity",
+    "alarmCode": "10039",
+    "alarmName": "湿度过高告警"
+  },
+  {
+    "alarmType": "lowhumidity",
+    "alarmCode": "10040",
+    "alarmName": "湿度过低告警"
+  },
+  {
+    "alarmType": "thermalimagingfire",
+    "alarmCode": "10041",
+    "alarmName": "热成像火点告警"
+  },
+  {
+    "alarmType": "whitelistface",
+    "alarmCode": "10042",
+    "alarmName": "陌生人告警"
+  },
+  {
+    "alarmType": "DoorLock-FingerprintOpenDoor",
+    "alarmCode": "10043",
+    "alarmName": "指纹开门"
+  },
+  {
+    "alarmType": "DoorLock-PasswordOpenDoor_d",
+    "alarmCode": "10044",
+    "alarmName": "密码开门"
+  },
+  {
+    "alarmType": "DoorLock-SwipeOpenDoor_d",
+    "alarmCode": "10045",
+    "alarmName": "刷卡开门"
+  },
+  {
+    "alarmType": "DoorLock-CenterRemoteOpenDoor_d",
+    "alarmCode": "10046",
+    "alarmName": "中心远程开门"
+  },
+  {
+    "alarmType": "DoorLock-AppRemoteOpenDoor_d",
+    "alarmCode": "10047",
+    "alarmName": "APP远程开门"
+  },
+  {
+    "alarmType": "DoorLock-KeyOpenDoor_d",
+    "alarmCode": "10048",
+    "alarmName": "钥匙开门"
+  },
+  {
+    "alarmType": "DoorLock-RemoteDeviceOpenDoor_d",
+    "alarmCode": "10049",
+    "alarmName": "遥控器开门"
+  },
+  {
+    "alarmType": "DoorLock-FingerprintInfoChange",
+    "alarmCode": "10050",
+    "alarmName": "指纹信息改动"
+  },
+  {
+    "alarmType": "DoorLock-CardInfoChange",
+    "alarmCode": "10051",
+    "alarmName": "卡信息改动"
+  },
+  {
+    "alarmType": "DoorLock-PasswordInfoChange",
+    "alarmCode": "10052",
+    "alarmName": "密码信息改动"
+  },
+  {
+    "alarmType": "DoorLock-UserInfoChange",
+    "alarmCode": "10053",
+    "alarmName": "用户信息改动"
+  },
+  {
+    "alarmType": "DoorLock-SystemInfoChange",
+    "alarmCode": "10054",
+    "alarmName": "系统信息改动"
+  },
+  {
+    "alarmType": "DoorLock-AntiHijackingFingerprint",
+    "alarmCode": "10055",
+    "alarmName": "防劫持指纹告警"
+  },
+  {
+    "alarmType": "DoorLock-AntiHijackingPassword",
+    "alarmCode": "10056",
+    "alarmName": "防劫持密码告警"
+  },
+  {
+    "alarmType": "DoorLock-PryDoor",
+    "alarmCode": "10057",
+    "alarmName": "撬门告警"
+  },
+  {
+    "alarmType": "DoorLock-Locked",
+    "alarmCode": "10058",
+    "alarmName": "门锁锁定告警"
+  },
+  {
+    "alarmType": "DoorLock-BatteryLow",
+    "alarmCode": "10059",
+    "alarmName": "电量不足告警"
+  },
+  {
+    "alarmType": "DoorLock-Blacklist",
+    "alarmCode": "10060",
+    "alarmName": "黑名单告警"
+  },
+  {
+    "alarmType": "DoorLock-Offline",
+    "alarmCode": "10061",
+    "alarmName": "掉线告警"
+  },
+  {
+    "alarmType": "callmsg",
+    "alarmCode": "10062",
+    "alarmName": "呼叫消息"
+  },
+  {
+    "alarmType": "hangupmsg",
+    "alarmCode": "10063",
+    "alarmName": "挂断消息"
+  },
+  {
+    "alarmType": "DoorLock-DoorOpenAlarm_d",
+    "alarmCode": "10064",
+    "alarmName": "智能锁开门提醒"
+  },
+  {
+    "alarmType": "DoorLock-ConfigChangeAlarm",
+    "alarmCode": "10065",
+    "alarmName": "智能锁配置改动提醒"
+  },
+  {
+    "alarmType": "DoorLock-DoorbellAlarm",
+    "alarmCode": "10066",
+    "alarmName": "门铃提醒"
+  },
+  {
+    "alarmType": "DoorLock-Reset",
+    "alarmCode": "10067",
+    "alarmName": "智能锁复位"
+  },
+  {
+    "alarmType": "DoorLock-DataClear",
+    "alarmCode": "10068",
+    "alarmName": "智能锁数据清空"
+  },
+  {
+    "alarmType": "opendoormsg_d",
+    "alarmCode": "10069",
+    "alarmName": "开门消息"
+  },
+  {
+    "alarmType": "nothomemsg_d",
+    "alarmCode": "10070",
+    "alarmName": "未回家消息"
+  },
+  {
+    "alarmType": "lowbattery",
+    "alarmCode": "10071",
+    "alarmName": "电量不足告警"
+  },
+  {
+    "alarmType": "abnormalopendoor_d",
+    "alarmCode": "10072",
+    "alarmName": "开门验证失败"
+  },
+  {
+    "alarmType": "unclosed_d",
+    "alarmCode": "10073",
+    "alarmName": "门未关告警"
+  },
+  {
+    "alarmType": "hijack_d",
+    "alarmCode": "10074",
+    "alarmName": "挟持告警"
+  },
+  {
+    "alarmType": "pry",
+    "alarmCode": "10075",
+    "alarmName": "撬开告警"
+  },
+  {
+    "alarmType": "abnormalharddisk",
+    "alarmCode": "10076",
+    "alarmName": "硬盘错误"
+  },
+  {
+    "alarmType": "face_stranger",
+    "alarmCode": "10077",
+    "alarmName": "陌生人告警"
+  },
+  {
+    "alarmType": "face_compare",
+    "alarmCode": "10078",
+    "alarmName": "人脸比对告警"
+  },
+  {
+    "alarmType": "intelligentDetection_d",
+    "alarmCode": "10079",
+    "alarmName": "智能检测告警"
+  },
+  {
+    "alarmType": "temperatureAlarm",
+    "alarmCode": "10080",
+    "alarmName": "温度告警"
+  },
+  {
+    "alarmType": "pm25LightPollute",
+    "alarmCode": "10081",
+    "alarmName": "PM2.5轻度污染"
+  },
+  {
+    "alarmType": "pm25SeverePollute",
+    "alarmCode": "10082",
+    "alarmName": "PM2.5重度污染"
+  },
+  {
+    "alarmType": "hchoLightPollute",
+    "alarmCode": "10083",
+    "alarmName": "甲醛轻度污染"
+  },
+  {
+    "alarmType": "hchoSeverePollute",
+    "alarmCode": "10084",
+    "alarmName": "甲醛重度污染"
+  },
+  {
+    "alarmType": "tvocLightPollute",
+    "alarmCode": "10085",
+    "alarmName": "有机气体TVOC轻度污染"
+  },
+  {
+    "alarmType": "tvocSeverePollute",
+    "alarmCode": "10086",
+    "alarmName": "有机气体TVOC重度污染"
+  },
+  {
+    "alarmType": "ThirdPartyVendorCaption",
+    "alarmCode": "10087",
+    "alarmName": "第三方抓图"
+  },
+  {
+    "alarmType": "peopleCountingDetection",
+    "alarmCode": "10088",
+    "alarmName": "区域人数检测"
+  },
+  {
+    "alarmType": "face_swapper",
+    "alarmCode": "10089",
+    "alarmName": "人脸抠图消息"
+  },
+  {
+    "alarmType": "lowtemperaturepre",
+    "alarmCode": "10090",
+    "alarmName": "温度过低预警"
+  },
+  {
+    "alarmType": "hightemperaturepre",
+    "alarmCode": "10091",
+    "alarmName": "温度过高预警"
+  },
+  {
+    "alarmType": "cameraHighTemperature",
+    "alarmCode": "10092",
+    "alarmName": "高温告警"
+  },
+  {
+    "alarmType": "petFeederState_1",
+    "alarmCode": "10093",
+    "alarmName": "食盆不见了"
+  },
+  {
+    "alarmType": "petFeederState_2",
+    "alarmCode": "10094",
+    "alarmName": "出粮口阻塞"
+  },
+  {
+    "alarmType": "petFeederState_3",
+    "alarmCode": "10095",
+    "alarmName": "宠物未进食"
+  },
+  {
+    "alarmType": "petFeederState_4",
+    "alarmCode": "10096",
+    "alarmName": "粮食不够"
+  },
+  {
+    "alarmType": "petFeederState_5",
+    "alarmCode": "10097",
+    "alarmName": "卡食了"
+  },
+  {
+    "alarmType": "devoffline",
+    "alarmCode": "10098",
+    "alarmName": "设备掉线"
+  },
+  {
+    "alarmType": "watchHeartRateHighWarning",
+    "alarmCode": "10117",
+    "alarmName": "心率偏高提醒"
+  },
+  {
+    "alarmType": "watchTakeOff",
+    "alarmCode": "10118",
+    "alarmName": "手表脱腕"
+  },
+  {
+    "alarmType": "SmartHumanDet",
+    "alarmCode": "10120",
+    "alarmName": "智能人形检测"
+  },
+  {
+    "alarmType": "SmartFaceDet",
+    "alarmCode": "10121",
+    "alarmName": "智能人脸检测"
+  },
+  {
+    "alarmType": "detectorMotionAlarm",
+    "alarmCode": "10122",
+    "alarmName": "设备发生移动"
+  },
+  {
+    "alarmType": "car_detect",
+    "alarmCode": "10130",
+    "alarmName": "有车出现"
+  },
+  {
+    "alarmType": "human_car_alarm",
+    "alarmCode": "10131",
+    "alarmName": "人车移动告警"
+  },
+  {
+    "alarmType": "shock",
+    "alarmCode": "10132",
+    "alarmName": "震动告警"
+  },
+  {
+    "alarmType": "PauStrainer",
+    "alarmCode": "10133",
+    "alarmName": "新风机滤网更换提醒"
+  },
+  {
+    "alarmType": "doorClose",
+    "alarmCode": "10135",
+    "alarmName": "门关闭事件"
+  },
+  {
+    "alarmType": "OCPTrip",
+    "alarmCode": "10136",
+    "alarmName": "过流保护触发"
+  },
+  {
+    "alarmType": "OCPRecov",
+    "alarmCode": "10137",
+    "alarmName": "过流保护恢复"
+  },
+  {
+    "alarmType": "OVPTrip",
+    "alarmCode": "10138",
+    "alarmName": "过压保护触发"
+  },
+  {
+    "alarmType": "OVPRecov",
+    "alarmCode": "10139",
+    "alarmName": "过压保护恢复"
+  },
+  {
+    "alarmType": "PirMoveAlarm",
+    "alarmCode": "10140",
+    "alarmName": "有人移动"
+  },
+  {
+    "alarmType": "DeviceFailure",
+    "alarmCode": "10141",
+    "alarmName": "设备故障"
+  },
+  {
+    "alarmType": "GasAlarm",
+    "alarmCode": "10142",
+    "alarmName": "燃气告警"
+  },
+  {
+    "alarmType": "LifeRemind",
+    "alarmCode": "10143",
+    "alarmName": "设备寿命倒计时提醒"
+  },
+  {
+    "alarmType": "SmokeAlarmReset",
+    "alarmCode": "10144",
+    "alarmName": "烟雾告警恢复"
+  },
+  {
+    "alarmType": "GasAlarmReset",
+    "alarmCode": "10145",
+    "alarmName": "燃气告警恢复"
+  },
+  {
+    "alarmType": "doobellringing",
+    "alarmCode": "10146",
+    "alarmName": "按铃提醒"
+  },
+  {
+    "alarmType": "HumanMoveIn",
+    "alarmCode": "10147",
+    "alarmName": "有人出现"
+  },
+  {
+    "alarmType": "HumanLongStay",
+    "alarmCode": "10148",
+    "alarmName": "有人停留"
+  },
+  {
+    "alarmType": "GrowthTaskPushMsg",
+    "alarmCode": "10149",
+    "alarmName": "成长任务未确认完成"
+  },
+  {
+    "alarmType": "CaringFence",
+    "alarmCode": "10153",
+    "alarmName": "围栏检测报警"
+  },
+  {
+    "alarmType": "SmokeFireAlarm",
+    "alarmCode": "10154",
+    "alarmName": "烟雾报警"
+  },
+  {
+    "alarmType": "PackageAppear",
+    "alarmCode": "10155",
+    "alarmName": "包裹提醒"
+  },
+  {
+    "alarmType": "ChildAppear",
+    "alarmCode": "10156",
+    "alarmName": "幼童出门提醒"
+  },
+  {
+    "alarmType": "mobile_overElectricFence",
+    "alarmCode": "11001",
+    "alarmName": "超出设定区域提醒"
+  },
+  {
+    "alarmType": "mobile_overNoiseThreshold",
+    "alarmCode": "11002",
+    "alarmName": "声音超过设定值"
+  },
+  {
+    "alarmType": "mobile_babycry",
+    "alarmCode": "11003",
+    "alarmName": "婴儿哭声提醒"
+  },
+  {
+    "alarmType": "mobile_lightChanging",
+    "alarmCode": "11004",
+    "alarmName": "光感提醒"
+  },
+  {
+    "alarmType": "energysaving321",
+    "alarmCode": "11100",
+    "alarmName": "节能提醒"
+  },
+  {
+    "alarmType": "ai_upgrade",
+    "alarmCode": "11101",
+    "alarmName": "智能模型更新"
+  },
+  {
+    "alarmType": "VMD",
+    "alarmCode": "12000",
+    "alarmName": "移动侦测告警开始"
+  },
+  {
+    "alarmType": "tamperdetection",
+    "alarmCode": "12002",
+    "alarmName": "遮挡告警开始"
+  },
+  {
+    "alarmType": "alarmTrig",
+    "alarmCode": "12003",
+    "alarmName": "即时防区告警"
+  },
+  {
+    "alarmType": "alarmRest",
+    "alarmCode": "12004",
+    "alarmName": "即时防区恢复"
+  },
+  {
+    "alarmType": "audio24Trig",
+    "alarmCode": "12005",
+    "alarmName": "24小时有声防区告警"
+  },
+  {
+    "alarmType": "audio24Rest",
+    "alarmCode": "12006",
+    "alarmName": "24小时有声防区恢复"
+  },
+  {
+    "alarmType": "enterexitTrig",
+    "alarmCode": "12007",
+    "alarmName": "延时告警"
+  },
+  {
+    "alarmType": "enterexitRest",
+    "alarmCode": "12008",
+    "alarmName": "延时告警恢复"
+  },
+  {
+    "alarmType": "internalTrig",
+    "alarmCode": "12009",
+    "alarmName": "即时告警"
+  },
+  {
+    "alarmType": "internalRest",
+    "alarmCode": "12010",
+    "alarmName": "即时告警恢复"
+  },
+  {
+    "alarmType": "fireTrig",
+    "alarmCode": "12011",
+    "alarmName": "火警告警"
+  },
+  {
+    "alarmType": "fireRest",
+    "alarmCode": "12012",
+    "alarmName": "火警告警恢复"
+  },
+  {
+    "alarmType": "perimeterTrig",
+    "alarmCode": "12013",
+    "alarmName": "周界告警"
+  },
+  {
+    "alarmType": "perimeterRest",
+    "alarmCode": "12014",
+    "alarmName": "周界告警恢复"
+  },
+  {
+    "alarmType": "silent24Trig",
+    "alarmCode": "12015",
+    "alarmName": "24小时无声告警"
+  },
+  {
+    "alarmType": "silent24Rest",
+    "alarmCode": "12016",
+    "alarmName": "24小时无声告警恢复"
+  },
+  {
+    "alarmType": "aux24Trig",
+    "alarmCode": "12017",
+    "alarmName": "24小时辅助防区告警"
+  },
+  {
+    "alarmType": "aux24Rest",
+    "alarmCode": "12018",
+    "alarmName": "24小时辅助防区告警恢复"
+  },
+  {
+    "alarmType": "vib24Trig",
+    "alarmCode": "12019",
+    "alarmName": "24小时震动防区告警"
+  },
+  {
+    "alarmType": "vib24Rest",
+    "alarmCode": "12020",
+    "alarmName": "24小时震动防区告警恢复"
+  },
+  {
+    "alarmType": "sensorDemol",
+    "alarmCode": "12021",
+    "alarmName": "防区感应器防拆触发"
+  },
+  {
+    "alarmType": "sensorRecov",
+    "alarmCode": "12022",
+    "alarmName": "防区感应器防拆恢复"
+  },
+  {
+    "alarmType": "softEmergTrig",
+    "alarmCode": "12023",
+    "alarmName": "软防区紧急告警"
+  },
+  {
+    "alarmType": "softFireTrig",
+    "alarmCode": "12024",
+    "alarmName": "软防区火警"
+  },
+  {
+    "alarmType": "softBanditTrig",
+    "alarmCode": "12025",
+    "alarmName": "软防区匪警"
+  },
+  {
+    "alarmType": "hostageReport",
+    "alarmCode": "12026",
+    "alarmName": "挟持报告"
+  },
+  {
+    "alarmType": "devTampering",
+    "alarmCode": "12027",
+    "alarmName": "设备防拆告警"
+  },
+  {
+    "alarmType": "devTamperRecov",
+    "alarmCode": "12028",
+    "alarmName": "设备防拆告警恢复"
+  },
+  {
+    "alarmType": "ACDown",
+    "alarmCode": "12029",
+    "alarmName": "交流电掉电"
+  },
+  {
+    "alarmType": "ACRecov",
+    "alarmCode": "12030",
+    "alarmName": "交流电恢复"
+  },
+  {
+    "alarmType": "lowBatVol",
+    "alarmCode": "12031",
+    "alarmName": "蓄电池电压低"
+  },
+  {
+    "alarmType": "norBatVol",
+    "alarmCode": "12032",
+    "alarmName": "蓄电池电压正常"
+  },
+  {
+    "alarmType": "telDiscon",
+    "alarmCode": "12033",
+    "alarmName": "电话线断开"
+  },
+  {
+    "alarmType": "telRecov",
+    "alarmCode": "12034",
+    "alarmName": "电话线连接"
+  },
+  {
+    "alarmType": "XBUSDiscon",
+    "alarmCode": "12035",
+    "alarmName": "扩展总线模块掉线"
+  },
+  {
+    "alarmType": "XBUSRecov",
+    "alarmCode": "12036",
+    "alarmName": "扩展总线模块掉线恢复"
+  },
+  {
+    "alarmType": "keyboardDisconn",
+    "alarmCode": "12037",
+    "alarmName": "键盘掉线"
+  },
+  {
+    "alarmType": "keyboardRecov",
+    "alarmCode": "12038",
+    "alarmName": "键盘恢复"
+  },
+  {
+    "alarmType": "KBUSTrigDiscon",
+    "alarmCode": "12039",
+    "alarmName": "键盘总线上触发器掉线"
+  },
+  {
+    "alarmType": "KBUSTrigRecov",
+    "alarmCode": "12040",
+    "alarmName": "键盘总线上触发器恢复"
+  },
+  {
+    "alarmType": "autoArmFail",
+    "alarmCode": "12041",
+    "alarmName": "自动布防失败"
+  },
+  {
+    "alarmType": "autoDisarmFail",
+    "alarmCode": "12042",
+    "alarmName": "自动撤防失败"
+  },
+  {
+    "alarmType": "wirelessExcep",
+    "alarmCode": "12043",
+    "alarmName": "无线网络异常"
+  },
+  {
+    "alarmType": "wirelessRecov",
+    "alarmCode": "12044",
+    "alarmName": "无线网络恢复正常"
+  },
+  {
+    "alarmType": "SIMExcep",
+    "alarmCode": "12045",
+    "alarmName": "SIM卡异常"
+  },
+  {
+    "alarmType": "SIMRecov",
+    "alarmCode": "12046",
+    "alarmName": "SIM卡恢复正常"
+  },
+  {
+    "alarmType": "hostReset",
+    "alarmCode": "12047",
+    "alarmName": "主机复位"
+  },
+  {
+    "alarmType": "disarm",
+    "alarmCode": "12048",
+    "alarmName": "撤防"
+  },
+  {
+    "alarmType": "arm",
+    "alarmCode": "12049",
+    "alarmName": "外出布防"
+  },
+  {
+    "alarmType": "autoDisarm",
+    "alarmCode": "12050",
+    "alarmName": "自动撤防"
+  },
+  {
+    "alarmType": "autoArm",
+    "alarmCode": "12051",
+    "alarmName": "自动布防"
+  },
+  {
+    "alarmType": "clear",
+    "alarmCode": "12052",
+    "alarmName": "消警"
+  },
+  {
+    "alarmType": "instantArm",
+    "alarmCode": "12053",
+    "alarmName": "即时布防"
+  },
+  {
+    "alarmType": "keyDisarm",
+    "alarmCode": "12054",
+    "alarmName": "钥匙防区撤防"
+  },
+  {
+    "alarmType": "keyArm",
+    "alarmCode": "12055",
+    "alarmName": "钥匙防区布防"
+  },
+  {
+    "alarmType": "stayArm",
+    "alarmCode": "12056",
+    "alarmName": "在家布防"
+  },
+  {
+    "alarmType": "forcedArm",
+    "alarmCode": "12057",
+    "alarmName": "强制布防"
+  },
+  {
+    "alarmType": "bypass",
+    "alarmCode": "12058",
+    "alarmName": "旁路"
+  },
+  {
+    "alarmType": "bypassRecov",
+    "alarmCode": "12059",
+    "alarmName": "旁路恢复"
+  },
+  {
+    "alarmType": "grpBypass",
+    "alarmCode": "12060",
+    "alarmName": "子系统组旁路"
+  },
+  {
+    "alarmType": "grpBypassRecov",
+    "alarmCode": "12061",
+    "alarmName": "子系统组旁路恢复"
+  },
+  {
+    "alarmType": "manualRep",
+    "alarmCode": "12062",
+    "alarmName": "手动测试报告"
+  },
+  {
+    "alarmType": "timingRep",
+    "alarmCode": "12063",
+    "alarmName": "定时测试报告"
+  },
+  {
+    "alarmType": "singleDisarm",
+    "alarmCode": "12064",
+    "alarmName": "单防区撤防"
+  },
+  {
+    "alarmType": "singleArm",
+    "alarmCode": "12065",
+    "alarmName": "单防区布防"
+  },
+  {
+    "alarmType": "keypadLock",
+    "alarmCode": "12066",
+    "alarmName": "键盘锁定"
+  },
+  {
+    "alarmType": "keypadUnlock",
+    "alarmCode": "12067",
+    "alarmName": "键盘解锁"
+  },
+  {
+    "alarmType": "printerOff",
+    "alarmCode": "12068",
+    "alarmName": "打印机掉线"
+  },
+  {
+    "alarmType": "printerOn",
+    "alarmCode": "12069",
+    "alarmName": "打印机恢复"
+  },
+  {
+    "alarmType": "instantDisarm",
+    "alarmCode": "12070",
+    "alarmName": "即时撤防"
+  },
+  {
+    "alarmType": "stayDisarm",
+    "alarmCode": "12071",
+    "alarmName": "留守撤防"
+  },
+  {
+    "alarmType": "triggerScheOn",
+    "alarmCode": "12072",
+    "alarmName": "定时开启触发器"
+  },
+  {
+    "alarmType": "triggerScheOff",
+    "alarmCode": "12073",
+    "alarmName": "定时关闭触发器"
+  },
+  {
+    "alarmType": "acTrigFail",
+    "alarmCode": "12074",
+    "alarmName": "定时开启触发器失败"
+  },
+  {
+    "alarmType": "deacTrigFail",
+    "alarmCode": "12075",
+    "alarmName": "定时关闭触发器失败"
+  },
+  {
+    "alarmType": "enterProgram",
+    "alarmCode": "12076",
+    "alarmName": "进入编程"
+  },
+  {
+    "alarmType": "exitProgram",
+    "alarmCode": "12077",
+    "alarmName": "退出编程"
+  },
+  {
+    "alarmType": "GPKDiscon",
+    "alarmCode": "12078",
+    "alarmName": "键盘总线上GP/K掉线"
+  },
+  {
+    "alarmType": "GPKRecov",
+    "alarmCode": "12079",
+    "alarmName": "键盘总线上GP/K恢复"
+  },
+  {
+    "alarmType": "MNKDiscon",
+    "alarmCode": "12080",
+    "alarmName": "键盘总线上MN/K掉线"
+  },
+  {
+    "alarmType": "MNKRecov",
+    "alarmCode": "12081",
+    "alarmName": "键盘总线上MN/K恢复"
+  },
+  {
+    "alarmType": "IPConflict",
+    "alarmCode": "12082",
+    "alarmName": "IP冲突"
+  },
+  {
+    "alarmType": "IPRecov",
+    "alarmCode": "12083",
+    "alarmName": "IP正常"
+  },
+  {
+    "alarmType": "netDiscon",
+    "alarmCode": "12084",
+    "alarmName": "有线网络故障"
+  },
+  {
+    "alarmType": "netRecov",
+    "alarmCode": "12085",
+    "alarmName": "有线网络故障恢复"
+  },
+  {
+    "alarmType": "VMDRecov",
+    "alarmCode": "12086",
+    "alarmName": "移动侦测告警结束"
+  },
+  {
+    "alarmType": "tamperRecov",
+    "alarmCode": "12087",
+    "alarmName": "遮挡告警结束"
+  },
+  {
+    "alarmType": "videoRecov",
+    "alarmCode": "12088",
+    "alarmName": "视频信号恢复"
+  },
+  {
+    "alarmType": "viIOUnmatch",
+    "alarmCode": "12089",
+    "alarmName": "输入/输出视频制式不匹配"
+  },
+  {
+    "alarmType": "viIORecov",
+    "alarmCode": "12090",
+    "alarmName": "输入/输出视频制式恢复正常"
+  },
+  {
+    "alarmType": "viInputExc",
+    "alarmCode": "12091",
+    "alarmName": "视频输入异常"
+  },
+  {
+    "alarmType": "viInputRecov",
+    "alarmCode": "12092",
+    "alarmName": "视频输入恢复正常"
+  },
+  {
+    "alarmType": "HDDfull",
+    "alarmCode": "12093",
+    "alarmName": "硬盘满"
+  },
+  {
+    "alarmType": "HDDfree",
+    "alarmCode": "12094",
+    "alarmName": "硬盘空闲"
+  },
+  {
+    "alarmType": "HDDexception",
+    "alarmCode": "12095",
+    "alarmName": "硬盘出错"
+  },
+  {
+    "alarmType": "HDDRecov",
+    "alarmCode": "12096",
+    "alarmName": "硬盘恢复正常"
+  },
+  {
+    "alarmType": "uploadPicFail",
+    "alarmCode": "12097",
+    "alarmName": "图片上传失败"
+  },
+  {
+    "alarmType": "DetOffline",
+    "alarmCode": "12098",
+    "alarmName": "无线探测器掉线"
+  },
+  {
+    "alarmType": "DetOnline",
+    "alarmCode": "12099",
+    "alarmName": "无线探测器掉线恢复"
+  },
+  {
+    "alarmType": "DetLowBattery",
+    "alarmCode": "12100",
+    "alarmName": "无线探测器电压低"
+  },
+  {
+    "alarmType": "DetBatteryRecov",
+    "alarmCode": "12101",
+    "alarmName": "无线探测器电压正常"
+  },
+  {
+    "alarmType": "zoneAddDet",
+    "alarmCode": "12102",
+    "alarmName": "添加探测器"
+  },
+  {
+    "alarmType": "zoneDeleteDet",
+    "alarmCode": "12103",
+    "alarmName": "删除探测器"
+  },
+  {
+    "alarmType": "wifiException",
+    "alarmCode": "12104",
+    "alarmName": "WIFI通信故障"
+  },
+  {
+    "alarmType": "wifiRecov",
+    "alarmCode": "12105",
+    "alarmName": "WIFI通信正常"
+  },
+  {
+    "alarmType": "rfException",
+    "alarmCode": "12106",
+    "alarmName": "RF信号异常"
+  },
+  {
+    "alarmType": "rfRecov",
+    "alarmCode": "12107",
+    "alarmName": "RF信号正常"
+  },
+  {
+    "alarmType": "MINOR_HOST_DESMANTLE_ALARM",
+    "alarmCode": "12108",
+    "alarmName": "主机防拆告警"
+  },
+  {
+    "alarmType": "MINOR_HOST_DESMANTLE_RESUME",
+    "alarmCode": "12109",
+    "alarmName": "主机防拆恢复"
+  },
+  {
+    "alarmType": "MINOR_CARD_READER_DESMANTLE_ALARM",
+    "alarmCode": "12110",
+    "alarmName": "读卡器防拆告警"
+  },
+  {
+    "alarmType": "MINOR_CARD_READER_DESMANTLE_RESUME",
+    "alarmCode": "12111",
+    "alarmName": "读卡器防拆恢复"
+  },
+  {
+    "alarmType": "MINOR_CASE_SENSOR_ALARM",
+    "alarmCode": "12112",
+    "alarmName": "事件输入告警"
+  },
+  {
+    "alarmType": "MINOR_CASE_SENSOR_RESUME",
+    "alarmCode": "12113",
+    "alarmName": "事件输入恢复"
+  },
+  {
+    "alarmType": "MINOR_SECURITY_MODULE_DESMANTLE_ALARM",
+    "alarmCode": "12114",
+    "alarmName": "门控安全模块防拆告警"
+  },
+  {
+    "alarmType": "MINOR_SECURITY_MODULE_DESMANTLE_RESUME",
+    "alarmCode": "12115",
+    "alarmName": "门控安全模块防拆恢复"
+  },
+  {
+    "alarmType": "MINOR_NET_BROKEN",
+    "alarmCode": "12116",
+    "alarmName": "网络断开"
+  },
+  {
+    "alarmType": "MINOR_NET_RESUME",
+    "alarmCode": "12117",
+    "alarmName": "网络恢复"
+  },
+  {
+    "alarmType": "MINOR_DEV_POWER_ON",
+    "alarmCode": "12118",
+    "alarmName": "设备上电启动"
+  },
+  {
+    "alarmType": "MINOR_DEV_POWER_OFF",
+    "alarmCode": "12119",
+    "alarmName": "设备掉电关闭"
+  },
+  {
+    "alarmType": "MINOR_DOOR_OPEN_ABNORMAL",
+    "alarmCode": "12120",
+    "alarmName": "门异常打开（门磁）"
+  },
+  {
+    "alarmType": "emergHelp",
+    "alarmCode": "12121",
+    "alarmName": "紧急求助告警"
+  },
+  {
+    "alarmType": "emergHelpRecov",
+    "alarmCode": "12122",
+    "alarmName": "紧急求助恢复"
+  },
+  {
+    "alarmType": "overAlarm",
+    "alarmCode": "12125",
+    "alarmName": "超时告警"
+  },
+  {
+    "alarmType": "overAlarmRecov",
+    "alarmCode": "12126",
+    "alarmName": "超时告警恢复"
+  },
+  {
+    "alarmType": "singleCancelArm",
+    "alarmCode": "12127",
+    "alarmName": "单防区消警"
+  },
+  {
+    "alarmType": "BUSQuery",
+    "alarmCode": "12128",
+    "alarmName": "总线搜索"
+  },
+  {
+    "alarmType": "BUSOpen",
+    "alarmCode": "12129",
+    "alarmName": "总线开路告警"
+  },
+  {
+    "alarmType": "BUSOpenRecov",
+    "alarmCode": "12130",
+    "alarmName": "总线开路告警恢复"
+  },
+  {
+    "alarmType": "BUSShort",
+    "alarmCode": "12131",
+    "alarmName": "总线短路告警"
+  },
+  {
+    "alarmType": "BUSShortRecov",
+    "alarmCode": "12132",
+    "alarmName": "总线短路告警恢复"
+  },
+  {
+    "alarmType": "exModuleExcep",
+    "alarmCode": "12133",
+    "alarmName": "扩展模块异常"
+  },
+  {
+    "alarmType": "exModuleRecov",
+    "alarmCode": "12134",
+    "alarmName": "扩展模块恢复"
+  },
+  {
+    "alarmType": "exModuleLowVol",
+    "alarmCode": "12135",
+    "alarmName": "扩展模块电压低"
+  },
+  {
+    "alarmType": "exModuleVolRecov",
+    "alarmCode": "12136",
+    "alarmName": "扩展模块电压正常"
+  },
+  {
+    "alarmType": "exModuleTamp",
+    "alarmCode": "12137",
+    "alarmName": "扩展模块防拆触发"
+  },
+  {
+    "alarmType": "exModuleTampRecov",
+    "alarmCode": "12138",
+    "alarmName": "扩展模块防拆恢复"
+  },
+  {
+    "alarmType": "exModuleAcDown",
+    "alarmCode": "12139",
+    "alarmName": "扩展模块交流电掉电"
+  },
+  {
+    "alarmType": "exModuleAcOn",
+    "alarmCode": "12140",
+    "alarmName": "扩展模块交流电恢复"
+  },
+  {
+    "alarmType": "repeaterTamp",
+    "alarmCode": "12141",
+    "alarmName": "无线中继器防拆触发"
+  },
+  {
+    "alarmType": "repeaterTampRecov",
+    "alarmCode": "12142",
+    "alarmName": "无线中继器防拆恢复"
+  },
+  {
+    "alarmType": "zoneOpenAlarm",
+    "alarmCode": "12143",
+    "alarmName": "防区开路提醒"
+  },
+  {
+    "alarmType": "zoneShortAlarm",
+    "alarmCode": "12144",
+    "alarmName": "防区短路提醒"
+  },
+  {
+    "alarmType": "telConTest",
+    "alarmCode": "12145",
+    "alarmName": "电话链路测试"
+  },
+  {
+    "alarmType": "exModuleDiscon",
+    "alarmCode": "12146",
+    "alarmName": "扩展模块掉线"
+  },
+  {
+    "alarmType": "exModuleCon",
+    "alarmCode": "12147",
+    "alarmName": "扩展模块掉线恢复"
+  },
+  {
+    "alarmType": "wlModuleDiscon",
+    "alarmCode": "12148",
+    "alarmName": "无线扩展模块掉线"
+  },
+  {
+    "alarmType": "wlModuleCon",
+    "alarmCode": "12149",
+    "alarmName": "无线扩展模块掉线恢复"
+  },
+  {
+    "alarmType": "repeaterDiscon",
+    "alarmCode": "12150",
+    "alarmName": "无线中继器掉线"
+  },
+  {
+    "alarmType": "repeaterCon",
+    "alarmCode": "12151",
+    "alarmName": "无线中继器掉线恢复"
+  },
+  {
+    "alarmType": "netExceed",
+    "alarmCode": "12152",
+    "alarmName": "流量超额"
+  },
+  {
+    "alarmType": "delExModule",
+    "alarmCode": "12155",
+    "alarmName": "删除扩展模块"
+  },
+  {
+    "alarmType": "addExModule",
+    "alarmCode": "12156",
+    "alarmName": "添加扩展模块"
+  },
+  {
+    "alarmType": "delRepeater",
+    "alarmCode": "12157",
+    "alarmName": "删除无线中继器"
+  },
+  {
+    "alarmType": "addRepeater",
+    "alarmCode": "12158",
+    "alarmName": "添加无线中继器"
+  },
+  {
+    "alarmType": "BUSRegistration",
+    "alarmCode": "12159",
+    "alarmName": "总线注册"
+  },
+  {
+    "alarmType": "wirelessSirenTamp",
+    "alarmCode": "12160",
+    "alarmName": "无线警号防拆触发"
+  },
+  {
+    "alarmType": "wirelessSirenTampRecov",
+    "alarmCode": "12161",
+    "alarmName": "无线警号防拆恢复"
+  },
+  {
+    "alarmType": "wirelessSirenDiscon",
+    "alarmCode": "12162",
+    "alarmName": "无线警号掉线"
+  },
+  {
+    "alarmType": "wirelessSirenCon",
+    "alarmCode": "12163",
+    "alarmName": "无线警号掉线恢复"
+  },
+  {
+    "alarmType": "addWirelessSiren",
+    "alarmCode": "12164",
+    "alarmName": "添加无线警号"
+  },
+  {
+    "alarmType": "delWirelessSiren",
+    "alarmCode": "12165",
+    "alarmName": "删除无线警号"
+  },
+  {
+    "alarmType": "singleDefenceAreaAlarm",
+    "alarmCode": "12166",
+    "alarmName": "单防区告警"
+  },
+  {
+    "alarmType": "displacementAlarm",
+    "alarmCode": "12167",
+    "alarmName": "位移告警"
+  },
+  {
+    "alarmType": "MINOR_Illegal_Login",
+    "alarmCode": "12168",
+    "alarmName": "非法访问"
+  },
+  {
+    "alarmType": "Rec_Or_CapExcept",
+    "alarmCode": "12169",
+    "alarmName": "录像/抓图异常"
+  },
+  {
+    "alarmType": "Hot_SpareExcept",
+    "alarmCode": "12170",
+    "alarmName": "热备异常"
+  },
+  {
+    "alarmType": "Access_BoardExcept",
+    "alarmCode": "12171",
+    "alarmName": "配件板异常"
+  },
+  {
+    "alarmType": "HDD_SHM_DetectExcept",
+    "alarmCode": "12172",
+    "alarmName": "硬盘SHM检测异常"
+  },
+  {
+    "alarmType": "persEmrgTrig",
+    "alarmCode": "12173",
+    "alarmName": "个人救护告警"
+  },
+  {
+    "alarmType": "persEmrgRest",
+    "alarmCode": "12174",
+    "alarmName": "个人救护告警恢复"
+  },
+  {
+    "alarmType": "theftAlarm",
+    "alarmCode": "12175",
+    "alarmName": "盗窃告警"
+  },
+  {
+    "alarmType": "theftAlarmRecov",
+    "alarmCode": "12176",
+    "alarmName": "盗窃告警恢复"
+  },
+  {
+    "alarmType": "gasLeakage",
+    "alarmCode": "12177",
+    "alarmName": "燃气泄漏告警"
+  },
+  {
+    "alarmType": "gasLeakageRecov",
+    "alarmCode": "12178",
+    "alarmName": "燃气泄漏告警恢复"
+  },
+  {
+    "alarmType": "lateDisarm",
+    "alarmCode": "12179",
+    "alarmName": "过迟撤防"
+  },
+  {
+    "alarmType": "CellularDataDiscon",
+    "alarmCode": "12180",
+    "alarmName": "移动网络异常"
+  },
+  {
+    "alarmType": "CellularDataCon",
+    "alarmCode": "12181",
+    "alarmName": "移动网络恢复正常"
+  },
+  {
+    "alarmType": "wirelessSirenLowVol",
+    "alarmCode": "12182",
+    "alarmName": "无线警号电压低"
+  },
+  {
+    "alarmType": "wirelessSirenVolRecov",
+    "alarmCode": "12183",
+    "alarmName": "无线警号电压正常"
+  },
+  {
+    "alarmType": "lpr",
+    "alarmCode": "12185",
+    "alarmName": "车牌识别"
+  },
+  {
+    "alarmType": "faceCapture",
+    "alarmCode": "12186",
+    "alarmName": "人脸抓图"
+  },
+  {
+    "alarmType": "figureCapture",
+    "alarmCode": "12187",
+    "alarmName": "人形抓图"
+  },
+  {
+    "alarmType": "fireConsult",
+    "alarmCode": "12188",
+    "alarmName": "火警咨询"
+  },
+  {
+    "alarmType": "fireConsultRecov",
+    "alarmCode": "12189",
+    "alarmName": "火警咨询结束"
+  },
+  {
+    "alarmType": "duressConsult",
+    "alarmCode": "12190",
+    "alarmName": "匪警咨询"
+  },
+  {
+    "alarmType": "duressConsultRecov",
+    "alarmCode": "12191",
+    "alarmName": "匪警咨询结束"
+  },
+  {
+    "alarmType": "firstAidConsult",
+    "alarmCode": "12192",
+    "alarmName": "急救咨询"
+  },
+  {
+    "alarmType": "firstAidConsultRecov",
+    "alarmCode": "12193",
+    "alarmName": "急救咨询结束"
+  },
+  {
+    "alarmType": "gasSensorProbe",
+    "alarmCode": "12194",
+    "alarmName": "燃气传感器故障"
+  },
+  {
+    "alarmType": "gasSensorLifeOver",
+    "alarmCode": "12195",
+    "alarmName": "燃气传感器寿命到期"
+  },
+  {
+    "alarmType": "gasLeak",
+    "alarmCode": "12196",
+    "alarmName": "燃气泄漏"
+  },
+  {
+    "alarmType": "gasConcentrationRestore",
+    "alarmCode": "12197",
+    "alarmName": "燃气浓度恢复正常"
+  },
+  {
+    "alarmType": "AutoCapature",
+    "alarmCode": "12200",
+    "alarmName": "自动化告警"
+  },
+  {
+    "alarmType": "MINOR_STRESS_ALARM",
+    "alarmCode": "12201",
+    "alarmName": "胁迫报警"
+  },
+  {
+    "alarmType": "channelOccupy",
+    "alarmCode": "12202",
+    "alarmName": "消防通道占用"
+  },
+  {
+    "alarmType": "annihilatorMiss",
+    "alarmCode": "12203",
+    "alarmName": "灭火器遗失"
+  },
+  {
+    "alarmType": "OffDuty",
+    "alarmCode": "12204",
+    "alarmName": "人员离岗"
+  },
+  {
+    "alarmType": "noCertificate",
+    "alarmCode": "12205",
+    "alarmName": "持证人员不足"
+  },
+  {
+    "alarmType": "batteryCarDisobey",
+    "alarmCode": "12206",
+    "alarmName": "电瓶车违规停放"
+  },
+  {
+    "alarmType": "smokeAlarm",
+    "alarmCode": "12207",
+    "alarmName": "烟雾告警"
+  },
+  {
+    "alarmType": "mainchanATPFault",
+    "alarmCode": "12208",
+    "alarmName": "主通道ATP故障"
+  },
+  {
+    "alarmType": "mainchanATPRecov",
+    "alarmCode": "12209",
+    "alarmName": "主通道ATP故障恢复"
+  },
+  {
+    "alarmType": "backupchanATPFault",
+    "alarmCode": "12210",
+    "alarmName": "备用通道ATP故障"
+  },
+  {
+    "alarmType": "backupchanATPRecov",
+    "alarmCode": "12211",
+    "alarmName": "备用通道ATP故障恢复"
+  },
+  {
+    "alarmType": "tagreaderLock",
+    "alarmCode": "12212",
+    "alarmName": "读卡器锁定"
+  },
+  {
+    "alarmType": "tagreaderUnlock",
+    "alarmCode": "12213",
+    "alarmName": "读卡器解锁"
+  },
+  {
+    "alarmType": "alarm24h",
+    "alarmCode": "12214",
+    "alarmName": "24小时防区告警"
+  },
+  {
+    "alarmType": "alarm24hRest",
+    "alarmCode": "12215",
+    "alarmName": "24小时防区告警恢复"
+  },
+  {
+    "alarmType": "TemperatureScreeningHigherAlarm",
+    "alarmCode": "12216",
+    "alarmName": "温度过高告警"
+  },
+  {
+    "alarmType": "TemperatureScreeningLowerAlarm",
+    "alarmCode": "12217",
+    "alarmName": "温度过低告警"
+  },
+  {
+    "alarmType": "repeaterACDown",
+    "alarmCode": "12218",
+    "alarmName": "中继器交流电掉电"
+  },
+  {
+    "alarmType": "repeaterACOn",
+    "alarmCode": "12219",
+    "alarmName": "中继器交流电恢复"
+  },
+  {
+    "alarmType": "repeaterLowVal",
+    "alarmCode": "12220",
+    "alarmName": "中继器欠压"
+  },
+  {
+    "alarmType": "repeaterVolRecov",
+    "alarmCode": "12221",
+    "alarmName": "中继器欠压恢复"
+  },
+  {
+    "alarmType": "repeaterBatFault",
+    "alarmCode": "12222",
+    "alarmName": "中继器电池缺失"
+  },
+  {
+    "alarmType": "repeaterBatRecov",
+    "alarmCode": "12223",
+    "alarmName": "中继器电池缺失恢复"
+  },
+  {
+    "alarmType": "unregTag",
+    "alarmCode": "12224",
+    "alarmName": "未注册卡"
+  },
+  {
+    "alarmType": "channelOccupyOff",
+    "alarmCode": "12244",
+    "alarmName": "消防通道占用恢复"
+  },
+  {
+    "alarmType": "OnDuty",
+    "alarmCode": "12245",
+    "alarmName": "人员离岗恢复"
+  },
+  {
+    "alarmType": "batteryCarDisobeyOff",
+    "alarmCode": "12246",
+    "alarmName": "电瓶车违规停放恢复"
+  },
+  {
+    "alarmType": "thermalimagingfireOff",
+    "alarmCode": "12247",
+    "alarmName": "热成像告警恢复"
+  },
+  {
+    "alarmType": "SafetyZoneIn",
+    "alarmCode": "12253",
+    "alarmName": "安全区域 进入提醒"
+  },
+  {
+    "alarmType": "SOSAlarm",
+    "alarmCode": "12254",
+    "alarmName": "SOS报警"
+  },
+  {
+    "alarmType": "AbnormalHeartRate",
+    "alarmCode": "12255",
+    "alarmName": "心率异常"
+  },
+  {
+    "alarmType": "buttoncall",
+    "alarmCode": "12256",
+    "alarmName": "按键呼叫告警"
+  },
+  {
+    "alarmType": "NoActivity",
+    "alarmCode": "12257",
+    "alarmName": "未活动报警"
+  },
+  {
+    "alarmType": "CustomHumanMoveIn",
+    "alarmCode": "12258",
+    "alarmName": "有人进入告警"
+  },
+  {
+    "alarmType": "PeopleFallingDownDetection",
+    "alarmCode": "12259",
+    "alarmName": "有人跌倒"
+  },
+  {
+    "alarmType": "AllMoveOut",
+    "alarmCode": "12260",
+    "alarmName": "有人离开"
+  },
+  {
+    "alarmType": "DoorLock-UnClosed",
+    "alarmCode": "13000",
+    "alarmName": "门锁虚掩告警"
+  },
+  {
+    "alarmType": "DoorLock-TmpPwdOpenDoor_d",
+    "alarmCode": "13001",
+    "alarmName": "临时密码开门告警"
+  },
+  {
+    "alarmType": "DoorLock-AddUser",
+    "alarmCode": "13002",
+    "alarmName": "智能锁新增用户"
+  },
+  {
+    "alarmType": "DoorLock-DeleteUser",
+    "alarmCode": "13003",
+    "alarmName": "智能锁删除用户"
+  },
+  {
+    "alarmType": "DoorLock-EditCustomUserName",
+    "alarmCode": "13004",
+    "alarmName": "智能锁自定义用户用户名改动"
+  },
+  {
+    "alarmType": "DoorLock-EditRemoteControlInformation",
+    "alarmCode": "13005",
+    "alarmName": "遥控器信息改动"
+  },
+  {
+    "alarmType": "DoorLock-ClearRemoteControlInformation",
+    "alarmCode": "13006",
+    "alarmName": "遥控器信息清空"
+  },
+  {
+    "alarmType": "DoorLock-ClearUserInformation",
+    "alarmCode": "13007",
+    "alarmName": "智能锁清空所有用户信息"
+  },
+  {
+    "alarmType": "DoorLock-ClearNormalUserFingerprint",
+    "alarmCode": "13008",
+    "alarmName": "智能锁清空普通用户指纹"
+  },
+  {
+    "alarmType": "DoorLock-ClearCards",
+    "alarmCode": "13009",
+    "alarmName": "智能锁清空所有卡片"
+  },
+  {
+    "alarmType": "DoorLock-ClearPasswords",
+    "alarmCode": "13010",
+    "alarmName": "智能锁清空所有密码"
+  },
+  {
+    "alarmType": "DoorLock-AddFingerprint",
+    "alarmCode": "13011",
+    "alarmName": "智能锁新增指纹"
+  },
+  {
+    "alarmType": "DoorLock-DeleteFingerprint",
+    "alarmCode": "13012",
+    "alarmName": "智能锁删除指纹"
+  },
+  {
+    "alarmType": "DoorLock-AddPassword",
+    "alarmCode": "13013",
+    "alarmName": "智能锁新增密码"
+  },
+  {
+    "alarmType": "DoorLock-DeletePassword",
+    "alarmCode": "13014",
+    "alarmName": "智能锁删除密码"
+  },
+  {
+    "alarmType": "DoorLock-AddCard",
+    "alarmCode": "13015",
+    "alarmName": "智能锁新增卡片"
+  },
+  {
+    "alarmType": "DoorLock-DeleteCard",
+    "alarmCode": "13016",
+    "alarmName": "智能锁删除卡片"
+  },
+  {
+    "alarmType": "DoorLock-NetworkStatusChanged",
+    "alarmCode": "13017",
+    "alarmName": "智能锁网络功能开关改动"
+  },
+  {
+    "alarmType": "DoorLock-NetworkDataCleared",
+    "alarmCode": "13018",
+    "alarmName": "智能锁网络数据清空"
+  },
+  {
+    "alarmType": "DoorLock-MasterUsersCleared",
+    "alarmCode": "13019",
+    "alarmName": "智能锁清空主人用户"
+  },
+  {
+    "alarmType": "DoorLock-VisitorsCleared",
+    "alarmCode": "13020",
+    "alarmName": "智能锁清空客人用户"
+  },
+  {
+    "alarmType": "DoorLock-RemainOpenModeChanged",
+    "alarmCode": "13021",
+    "alarmName": "智能锁通道模式改动"
+  },
+  {
+    "alarmType": "DoorLock-FailedFingerprintAttempts",
+    "alarmCode": "13022",
+    "alarmName": "智能锁指纹锁定告警"
+  },
+  {
+    "alarmType": "DoorLock-FailedCardReadingAttempts",
+    "alarmCode": "13023",
+    "alarmName": "智能锁卡片锁定告警"
+  },
+  {
+    "alarmType": "DoorLock-OpensDoorWithMultipleAuthentications_d",
+    "alarmCode": "13024",
+    "alarmName": "智能锁多重验证开门"
+  },
+  {
+    "alarmType": "DoorLock-MagneticTamperingAlarm",
+    "alarmCode": "13025",
+    "alarmName": "门磁防拆告警"
+  },
+  {
+    "alarmType": "DoorLock-MagneticTamperProofRestored",
+    "alarmCode": "13026",
+    "alarmName": "门磁防拆恢复"
+  },
+  {
+    "alarmType": "DoorLock-MagneticAlarm_d",
+    "alarmCode": "13027",
+    "alarmName": "门磁告警"
+  },
+  {
+    "alarmType": "DoorLock-MagneticRestored",
+    "alarmCode": "13028",
+    "alarmName": "门磁恢复"
+  },
+  {
+    "alarmType": "DoorLock-PIRTamperingAlarm",
+    "alarmCode": "13029",
+    "alarmName": "被动红外防拆告警"
+  },
+  {
+    "alarmType": "DoorLock-PIRTamperProofRestored",
+    "alarmCode": "13030",
+    "alarmName": "被动红外防拆恢复"
+  },
+  {
+    "alarmType": "DoorLock-PIRAlarm",
+    "alarmCode": "13031",
+    "alarmName": "被动红外告警"
+  },
+  {
+    "alarmType": "DoorLock-PIRAlarmRestored",
+    "alarmCode": "13032",
+    "alarmName": "被动红外恢复"
+  },
+  {
+    "alarmType": "DoorLock-BluetoothOpenDoor_d",
+    "alarmCode": "13033",
+    "alarmName": "智能锁蓝牙开门"
+  },
+  {
+    "alarmType": "DoorLock-SmokeDetectorTampered",
+    "alarmCode": "13034",
+    "alarmName": "烟感防拆告警"
+  },
+  {
+    "alarmType": "DoorLock-SmokeDetectorRestored",
+    "alarmCode": "13035",
+    "alarmName": "烟感防拆恢复"
+  },
+  {
+    "alarmType": "DoorLock-SmokeAlarm",
+    "alarmCode": "13036",
+    "alarmName": "烟感告警"
+  },
+  {
+    "alarmType": "DoorLock-SmokeAlarmRestored",
+    "alarmCode": "13037",
+    "alarmName": "烟感恢复"
+  },
+  {
+    "alarmType": "DoorLock-GasDetectorTampered",
+    "alarmCode": "13038",
+    "alarmName": "气感防拆告警"
+  },
+  {
+    "alarmType": "DoorLock-GasDetectorRestored",
+    "alarmCode": "13039",
+    "alarmName": "气感防拆恢复"
+  },
+  {
+    "alarmType": "DoorLock-GasAlarm",
+    "alarmCode": "13040",
+    "alarmName": "气感告警"
+  },
+  {
+    "alarmType": "DoorLock- GasAlarmRestored",
+    "alarmCode": "13041",
+    "alarmName": "气感恢复"
+  },
+  {
+    "alarmType": "DoorLock-MultipleAuthenticationsOpenDoor",
+    "alarmCode": "13042",
+    "alarmName": "智能锁多重认证开门"
+  },
+  {
+    "alarmType": "sendEmailFail",
+    "alarmCode": "13043",
+    "alarmName": "邮件发送失败"
+  },
+  {
+    "alarmType": "netCameraDiscon",
+    "alarmCode": "13044",
+    "alarmName": "IPC断开连接"
+  },
+  {
+    "alarmType": "netCameraCon",
+    "alarmCode": "13045",
+    "alarmName": "IPC恢复连接"
+  },
+  {
+    "alarmType": "DoorLock-HandleTampered",
+    "alarmCode": "13046",
+    "alarmName": "智能锁把手防拆告警"
+  },
+  {
+    "alarmType": "DoorLock-FingerprintScannerMismatch",
+    "alarmCode": "13047",
+    "alarmName": "智能锁指纹模块不匹配告警"
+  },
+  {
+    "alarmType": "DoorLock-Armed",
+    "alarmCode": "13048",
+    "alarmName": "智能锁布防"
+  },
+  {
+    "alarmType": "{DoorLock-Disarmed",
+    "alarmCode": "13049",
+    "alarmName": "智能锁撤防"
+  },
+  {
+    "alarmType": "DoorLock-FailedDual-authentication Attempts",
+    "alarmCode": "13050",
+    "alarmName": "智能锁双重认证系统锁定"
+  },
+  {
+    "alarmType": "DoorLock- GeneralUserCleared",
+    "alarmCode": "13051",
+    "alarmName": "智能锁清空普通用户"
+  },
+  {
+    "alarmType": "SafeRegionReach_d",
+    "alarmCode": "13052",
+    "alarmName": "安全区域 到达提醒"
+  },
+  {
+    "alarmType": "SafeRegionNotReach_d",
+    "alarmCode": "13053",
+    "alarmName": "安全区域 未到达提醒"
+  },
+  {
+    "alarmType": "SafeRegionLeave",
+    "alarmCode": "13054",
+    "alarmName": "安全区域 离开提醒"
+  },
+  {
+    "alarmType": "BatteryLow_d",
+    "alarmCode": "13055",
+    "alarmName": "手表电量低，该充电了"
+  },
+  {
+    "alarmType": "sos",
+    "alarmCode": "13056",
+    "alarmName": "手表sos告警"
+  },
+  {
+    "alarmType": "Ships",
+    "alarmCode": "13057",
+    "alarmName": "船只告警"
+  },
+  {
+    "alarmType": "TemperatureDifference",
+    "alarmCode": "13058",
+    "alarmName": "温差告警"
+  },
+  {
+    "alarmType": "TestTemperature",
+    "alarmCode": "13059",
+    "alarmName": "测温告警"
+  },
+  {
+    "alarmType": "TestTemperatureExpect",
+    "alarmCode": "13060",
+    "alarmName": "测温预警"
+  },
+  {
+    "alarmType": "softMedicalTrig",
+    "alarmCode": "13061",
+    "alarmName": "软防区医疗告警"
+  },
+  {
+    "alarmType": "videoLose",
+    "alarmCode": "13062",
+    "alarmName": "视频信号丢失"
+  },
+  {
+    "alarmType": "pronedetection",
+    "alarmCode": "13063",
+    "alarmName": "倒地侦测"
+  },
+  {
+    "alarmType": "loiter",
+    "alarmCode": "13064",
+    "alarmName": "徘徊侦测告警"
+  },
+  {
+    "alarmType": "hostalarm",
+    "alarmCode": "13065",
+    "alarmName": "报警主机告警"
+  },
+  {
+    "alarmType": "temperature_high",
+    "alarmCode": "13066",
+    "alarmName": "温度过高告警"
+  },
+  {
+    "alarmType": "temperature_low",
+    "alarmCode": "13067",
+    "alarmName": "温度过低告警"
+  },
+  {
+    "alarmType": "batFault",
+    "alarmCode": "13068",
+    "alarmName": "蓄电池故障"
+  },
+  {
+    "alarmType": "batFaultRecov",
+    "alarmCode": "13069",
+    "alarmName": "蓄电池故障恢复"
+  },
+  {
+    "alarmType": "walkTestEnter",
+    "alarmCode": "13070",
+    "alarmName": "进入步测模式"
+  },
+  {
+    "alarmType": "walkTestExit",
+    "alarmCode": "13071",
+    "alarmName": "退出步测模式"
+  },
+  {
+    "alarmType": "keyfobLowVol",
+    "alarmCode": "13072",
+    "alarmName": "遥控器欠压"
+  },
+  {
+    "alarmType": "keyfobVolRecov",
+    "alarmCode": "13073",
+    "alarmName": "遥控器欠压恢复"
+  },
+  {
+    "alarmType": "pirDet",
+    "alarmCode": "13074",
+    "alarmName": "人体感应检测事件（海外B端专用）"
+  },
+  {
+    "alarmType": "MINOR_OFFLINE_ECENT_NEARLY_FULL",
+    "alarmCode": "13075",
+    "alarmName": "离线事件满90%告警"
+  },
+  {
+    "alarmType": "MINOR_CARD_MAX_AUTHENTICATE_FAIL",
+    "alarmCode": "13076",
+    "alarmName": "卡号认证失败超次"
+  },
+  {
+    "alarmType": "MINOR_LEGAL_EVENT_NEARLY_FULL",
+    "alarmCode": "13077",
+    "alarmName": "合法事件满90%告警"
+  },
+  {
+    "alarmType": "overcrowding",
+    "alarmCode": "13078",
+    "alarmName": "人员密度超限告警"
+  },
+  {
+    "alarmType": "humitureDetection",
+    "alarmCode": "13079",
+    "alarmName": "温湿度检测告警"
+  },
+  {
+    "alarmType": "FaceBlackList",
+    "alarmCode": "13080",
+    "alarmName": "人脸黑名单告警"
+  },
+  {
+    "alarmType": "humitureExceedLimit",
+    "alarmCode": "13081",
+    "alarmName": "温湿度超限告警"
+  },
+  {
+    "alarmType": "HDDHighTemperature",
+    "alarmCode": "13082",
+    "alarmName": "硬盘温度过高"
+  },
+  {
+    "alarmType": "HDDLowTemperature",
+    "alarmCode": "13083",
+    "alarmName": "硬盘温度过低"
+  },
+  {
+    "alarmType": "HDDImpactTesting",
+    "alarmCode": "13084",
+    "alarmName": "硬盘冲击检测"
+  },
+  {
+    "alarmType": "HDDBadBlock",
+    "alarmCode": "13085",
+    "alarmName": "硬盘坏块"
+  },
+  {
+    "alarmType": "HDDSeriousFailure",
+    "alarmCode": "13086",
+    "alarmName": "硬盘严重故障"
+  },
+  {
+    "alarmType": "audioUpTrig",
+    "alarmCode": "13087",
+    "alarmName": "声强陡升告警"
+  },
+  {
+    "alarmType": "audioUpRest",
+    "alarmCode": "13088",
+    "alarmName": "声强陡升告警恢复"
+  },
+  {
+    "alarmType": "audioDropTrig",
+    "alarmCode": "13089",
+    "alarmName": "声强陡降告警"
+  },
+  {
+    "alarmType": "audioDropRest",
+    "alarmCode": "13090",
+    "alarmName": "声强陡降告警恢复"
+  },
+  {
+    "alarmType": "audioInExcepTrig",
+    "alarmCode": "13091",
+    "alarmName": "音频输入异常"
+  },
+  {
+    "alarmType": "audioInExcepRest",
+    "alarmCode": "13092",
+    "alarmName": "音频输入异常恢复"
+  },
+  {
+    "alarmType": "repUploadFail",
+    "alarmCode": "13093",
+    "alarmName": "报告上传失败"
+  },
+  {
+    "alarmType": "repUploadRecov",
+    "alarmCode": "13094",
+    "alarmName": "报告上传失败恢复"
+  },
+  {
+    "alarmType": "keypadLockTime",
+    "alarmCode": "13095",
+    "alarmName": "键盘锁定{minute}分钟"
+  },
+  {
+    "alarmType": "simFlowPercent",
+    "alarmCode": "13096",
+    "alarmName": "本月SIM卡流量使用已达到{percent}"
+  },
+  {
+    "alarmType": "armFail",
+    "alarmCode": "13097",
+    "alarmName": "布防失败"
+  },
+  {
+    "alarmType": "PoEPowerOverloadAlarm",
+    "alarmCode": "13098",
+    "alarmName": "POE整机功率超限"
+  },
+  {
+    "alarmType": "PoEPowerOverloadResume",
+    "alarmCode": "13099",
+    "alarmName": "POE整机功率超限恢复"
+  },
+  {
+    "alarmType": "PoEPowerSupplyOff",
+    "alarmCode": "13100",
+    "alarmName": "端口POE掉电"
+  },
+  {
+    "alarmType": "PoEPowerSupplyOn",
+    "alarmCode": "13101",
+    "alarmName": "端口POE上电"
+  },
+  {
+    "alarmType": "WirelessUpLinkAbnormal",
+    "alarmCode": "13102",
+    "alarmName": "无线上行速率异常"
+  },
+  {
+    "alarmType": "WirelessDisconnect",
+    "alarmCode": "13103",
+    "alarmName": "无线连接断开"
+  },
+  {
+    "alarmType": "fiberOpticalLinkDown",
+    "alarmCode": "13104",
+    "alarmName": "光口断开"
+  },
+  {
+    "alarmType": "fiberOpticalLinkUp",
+    "alarmCode": "13105",
+    "alarmName": "光口连接"
+  },
+  {
+    "alarmType": "portLinkDown",
+    "alarmCode": "13106",
+    "alarmName": "网口断开"
+  },
+  {
+    "alarmType": "portLinkUp",
+    "alarmCode": "13107",
+    "alarmName": "网口连接"
+  },
+  {
+    "alarmType": "WirelessConnect",
+    "alarmCode": "13108",
+    "alarmName": "无线连接"
+  },
+  {
+    "alarmType": "TimingWakingSnapshot",
+    "alarmCode": "13200",
+    "alarmName": "定时抓拍"
+  },
+  {
+    "alarmType": "linecrossArm",
+    "alarmCode": "13201",
+    "alarmName": "跨线告警"
+  },
+  {
+    "alarmType": "linecrossArmRecov",
+    "alarmCode": "13202",
+    "alarmName": "跨线告警恢复"
+  },
+  {
+    "alarmType": "firedetection",
+    "alarmCode": "13203",
+    "alarmName": "火源侦测告警"
+  },
+  {
+    "alarmType": "firedetectionRecov",
+    "alarmCode": "13204",
+    "alarmName": "火源侦测告警恢复"
+  },
+  {
+    "alarmType": "hightemperaturepreRecov",
+    "alarmCode": "13205",
+    "alarmName": "温度过高预警恢复"
+  },
+  {
+    "alarmType": "lowtemperaturepreRecov",
+    "alarmCode": "13206",
+    "alarmName": "温度过低预警恢复"
+  },
+  {
+    "alarmType": "temperature_highRecov",
+    "alarmCode": "13207",
+    "alarmName": "温度过高报警恢复"
+  },
+  {
+    "alarmType": "temperature_lowRecov",
+    "alarmCode": "13208",
+    "alarmName": "温度过低报警恢复"
+  },
+  {
+    "alarmType": "fielddetectionRecov",
+    "alarmCode": "13209",
+    "alarmName": "区域入侵告警恢复"
+  },
+  {
+    "alarmType": "safetyhelmetdetection",
+    "alarmCode": "13210",
+    "alarmName": "未佩戴安全帽告警"
+  },
+  {
+    "alarmType": "lowBatteryAlarm",
+    "alarmCode": "13211",
+    "alarmName": "低电量告警"
+  },
+  {
+    "alarmType": "temperatureDetectionHighAlarm",
+    "alarmCode": "13212",
+    "alarmName": "气温过高"
+  },
+  {
+    "alarmType": "temperatureDetectionLowAlarm",
+    "alarmCode": "13213",
+    "alarmName": "气温过低"
+  },
+  {
+    "alarmType": "humitureDetectionHightAlarm",
+    "alarmCode": "13214",
+    "alarmName": "湿度过高"
+  },
+  {
+    "alarmType": "humitureDetectionLowAlarm",
+    "alarmCode": "13215",
+    "alarmName": "湿度过低"
+  },
+  {
+    "alarmType": "waterLoggingAlarm",
+    "alarmCode": "13216",
+    "alarmName": "浸水告警"
+  },
+  {
+    "alarmType": "waterLoggingAlarmRestored",
+    "alarmCode": "13217",
+    "alarmName": "浸水告警恢复"
+  },
+  {
+    "alarmType": "pirAlarm",
+    "alarmCode": "13218",
+    "alarmName": "有人移动告警"
+  },
+  {
+    "alarmType": "magneticAlarm",
+    "alarmCode": "13219",
+    "alarmName": "门窗打开"
+  },
+  {
+    "alarmType": "magneticAlarmRestored",
+    "alarmCode": "13220",
+    "alarmName": "门窗关闭"
+  },
+  {
+    "alarmType": "gasSelfInspection",
+    "alarmCode": "13221",
+    "alarmName": "自检"
+  },
+  {
+    "alarmType": "gasAlarm",
+    "alarmCode": "13222",
+    "alarmName": "燃气告警"
+  },
+  {
+    "alarmType": "gasAlarmRestored",
+    "alarmCode": "13223",
+    "alarmName": "燃气告警恢复"
+  },
+  {
+    "alarmType": "emergHelp",
+    "alarmCode": "13224",
+    "alarmName": "求助"
+  },
+  {
+    "alarmType": "smogSelfInspection",
+    "alarmCode": "13225",
+    "alarmName": "自检"
+  },
+  {
+    "alarmType": "smogAlarm",
+    "alarmCode": "13226",
+    "alarmName": "烟感告警"
+  },
+  {
+    "alarmType": "smogAlarmRestored",
+    "alarmCode": "13227",
+    "alarmName": "烟感告警恢复"
+  },
+  {
+    "alarmType": "magnetometer-unclosed",
+    "alarmCode": "13304",
+    "alarmName": "门磁未关闭"
+  },
+  {
+    "alarmType": "LackWater",
+    "alarmCode": "13317",
+    "alarmName": "低水位报警"
+  },
+  {
+    "alarmType": "CartridgeExpire",
+    "alarmCode": "13319",
+    "alarmName": "滤芯更换"
+  },
+  {
+    "alarmType": "WaterOutReset",
+    "alarmCode": "13331",
+    "alarmName": "水浸恢复"
+  },
+  {
+    "alarmType": "WaterOut",
+    "alarmCode": "13332",
+    "alarmName": "水浸告警"
+  },
+  {
+    "alarmType": "TemperatureTooHigh",
+    "alarmCode": "13334",
+    "alarmName": "温度过高告警"
+  },
+  {
+    "alarmType": "TemperatureTooLow",
+    "alarmCode": "13335",
+    "alarmName": "温度过低告警"
+  },
+  {
+    "alarmType": "HumidityTooHigh",
+    "alarmCode": "13336",
+    "alarmName": "湿度过高告警"
+  },
+  {
+    "alarmType": "HumidityTooLow",
+    "alarmCode": "13337",
+    "alarmName": "湿度过低告警"
+  },
+  {
+    "alarmType": "innerOpendoor",
+    "alarmCode": "13338",
+    "alarmName": "布防模式下，有人室内开门"
+  },
+  {
+    "alarmType": "EyeDistanceTooCloseAlarm",
+    "alarmCode": "13340",
+    "alarmName": "发生用眼距离过近告警"
+  },
+  {
+    "alarmType": "switch_overload",
+    "alarmCode": "14001",
+    "alarmName": "开关过载告警"
+  },
+  {
+    "alarmType": "switch_overtemp",
+    "alarmCode": "14002",
+    "alarmName": "开关过温告警"
+  },
+  {
+    "alarmType": "unmannedAlarm_d",
+    "alarmCode": "14006",
+    "alarmName": "未出现提醒"
+  },
+  {
+    "alarmType": "mobile_overElectricFall",
+    "alarmCode": "14007",
+    "alarmName": "跌落提醒"
+  },
+  {
+    "alarmType": "wirelessDeviceTamp",
+    "alarmCode": "14011",
+    "alarmName": "无线外设被拆"
+  },
+  {
+    "alarmType": "wirelessDeviceTampRecov",
+    "alarmCode": "14012",
+    "alarmName": "无线外设被拆恢复"
+  },
+  {
+    "alarmType": "wirelessDeviceLowVol",
+    "alarmCode": "14013",
+    "alarmName": "无线外设欠压"
+  },
+  {
+    "alarmType": "wirelessDeviceVolRecov",
+    "alarmCode": "14014",
+    "alarmName": "无线外设欠压恢复"
+  },
+  {
+    "alarmType": "wirelessDeviceDiscon",
+    "alarmCode": "14015",
+    "alarmName": "无线外设掉线"
+  },
+  {
+    "alarmType": "wirelessDeviceCon",
+    "alarmCode": "14016",
+    "alarmName": "无线外设掉线恢复"
+  },
+  {
+    "alarmType": "patrol",
+    "alarmCode": "14017",
+    "alarmName": "巡更"
+  },
+  {
+    "alarmType": "delWirelessDevice",
+    "alarmCode": "14018",
+    "alarmName": "删除无线外设"
+  },
+  {
+    "alarmType": "addWirelessDevice",
+    "alarmCode": "14019",
+    "alarmName": "添加无线外设"
+  },
+  {
+    "alarmType": "cry_detect",
+    "alarmCode": "15000",
+    "alarmName": "哭声检测"
+  },
+  {
+    "alarmType": "voiceAiCheckBabyCry",
+    "alarmCode": "15001",
+    "alarmName": "婴儿啼哭"
+  },
+  {
+    "alarmType": "leave_post_detection",
+    "alarmCode": "15002",
+    "alarmName": "离岗检测"
+  },
+  {
+    "alarmType": "pet_detection",
+    "alarmCode": "15003",
+    "alarmName": "宠物出现"
+  },
+  {
+    "alarmType": "tumble_detection",
+    "alarmCode": "15004",
+    "alarmName": "有人跌倒"
+  },
+  {
+    "alarmType": "detect_fail_offline",
+    "alarmCode": "15005",
+    "alarmName": "智能检测错误设备离线"
+  },
+  {
+    "alarmType": "deviceIntelligentDetection",
+    "alarmCode": "15006",
+    "alarmName": "智能检测告警"
+  },
+  {
+    "alarmType": "gesture_detection",
+    "alarmCode": "15007",
+    "alarmName": "手势触发"
+  },
+  {
+    "alarmType": "sound_detection",
+    "alarmCode": "15008",
+    "alarmName": "有异声"
+  },
+  {
+    "alarmType": "light_detection",
+    "alarmCode": "15009",
+    "alarmName": "有异光"
+  },
+  {
+    "alarmType": "intelligentDetection",
+    "alarmCode": "15010",
+    "alarmName": "智能检测告警"
+  },
+  {
+    "alarmType": "face_detect",
+    "alarmCode": "15011",
+    "alarmName": "检测到人脸"
+  },
+  {
+    "alarmType": "vas_smart_human",
+    "alarmCode": "15500",
+    "alarmName": "智能人形识别"
+  },
+  {
+    "alarmType": "vas_smart_pet",
+    "alarmCode": "15501",
+    "alarmName": "智能宠物识别"
+  },
+  {
+    "alarmType": "vas_smart_car",
+    "alarmCode": "15502",
+    "alarmName": "智能车形识别"
+  },
+  {
+    "alarmType": "Operation_prolonged_absence",
+    "alarmCode": "15503",
+    "alarmName": "长时间未出现提醒"
+  },
+  {
+    "alarmType": "StrangerAppear",
+    "alarmCode": "16000",
+    "alarmName": "有陌生人出现"
+  },
+  {
+    "alarmType": "vas_face",
+    "alarmCode": "16400",
+    "alarmName": "人脸识别事件"
+  },
+  {
+    "alarmType": "vas_face_dooropen",
+    "alarmCode": "16401",
+    "alarmName": "门锁人脸识别事件"
+  },
+  {
+    "alarmType": "magnetometer_d",
+    "alarmCode": "17001",
+    "alarmName": "门磁告警"
+  },
+  {
+    "alarmType": "move_magnetometer_d",
+    "alarmCode": "17002",
+    "alarmName": "单体门磁告警"
+  },
+  {
+    "alarmType": "DoorLock-FingerprintOpenDoor_d",
+    "alarmCode": "17003",
+    "alarmName": "指纹开门"
+  },
+  {
+    "alarmType": "DoorLock-PasswordOpenDoor",
+    "alarmCode": "17004",
+    "alarmName": "密码开门"
+  },
+  {
+    "alarmType": "DoorLock-SwipeOpenDoor",
+    "alarmCode": "17005",
+    "alarmName": "刷卡开门"
+  },
+  {
+    "alarmType": "DoorLock-CenterRemoteOpenDoor",
+    "alarmCode": "17006",
+    "alarmName": "中心远程开门"
+  },
+  {
+    "alarmType": "DoorLock-AppRemoteOpenDoor",
+    "alarmCode": "17007",
+    "alarmName": "APP远程开门"
+  },
+  {
+    "alarmType": "DoorLock-KeyOpenDoor",
+    "alarmCode": "17008",
+    "alarmName": "钥匙开门"
+  },
+  {
+    "alarmType": "DoorLock-RemoteDeviceOpenDoor",
+    "alarmCode": "17009",
+    "alarmName": "遥控器开门"
+  },
+  {
+    "alarmType": "DoorLock-DoorOpenAlarm",
+    "alarmCode": "17010",
+    "alarmName": "智能锁开门提醒"
+  },
+  {
+    "alarmType": "opendoormsg",
+    "alarmCode": "17011",
+    "alarmName": "开门消息"
+  },
+  {
+    "alarmType": "abnormalopendoor",
+    "alarmCode": "17012",
+    "alarmName": "门锁验证错误次数过多"
+  },
+  {
+    "alarmType": "unclosed",
+    "alarmCode": "17013",
+    "alarmName": "门未关告警"
+  },
+  {
+    "alarmType": "hijack",
+    "alarmCode": "17014",
+    "alarmName": "挟持告警"
+  },
+  {
+    "alarmType": "DoorLock-TmpPwdOpenDoor",
+    "alarmCode": "17015",
+    "alarmName": "临时密码开门告警"
+  },
+  {
+    "alarmType": "DoorLock-OpensDoorWithMultipleAuthentications",
+    "alarmCode": "17016",
+    "alarmName": "智能锁多重验证开门"
+  },
+  {
+    "alarmType": "DoorLock-MagneticAlarm",
+    "alarmCode": "17017",
+    "alarmName": "门磁告警"
+  },
+  {
+    "alarmType": "DoorLock-BluetoothOpenDoor",
+    "alarmCode": "17018",
+    "alarmName": "智能锁蓝牙开门"
+  },
+  {
+    "alarmType": "nothomemsg",
+    "alarmCode": "17019",
+    "alarmName": "未回家消息"
+  },
+  {
+    "alarmType": "SafeRegionReach",
+    "alarmCode": "17020",
+    "alarmName": "安全区域 到达提醒"
+  },
+  {
+    "alarmType": "SafeRegionNotReach",
+    "alarmCode": "17021",
+    "alarmName": "安全区域 未到达提醒"
+  },
+  {
+    "alarmType": "SafeRegionLeave",
+    "alarmCode": "17022",
+    "alarmName": "安全区域 离开提醒"
+  },
+  {
+    "alarmType": "unmannedAlarm",
+    "alarmCode": "17023",
+    "alarmName": "未出现提醒"
+  },
+  {
+    "alarmType": "MachannicalOpenDoor",
+    "alarmCode": "17025",
+    "alarmName": "布防模式下，有人机械方式开门"
+  },
+  {
+    "alarmType": "calling_doorbell",
+    "alarmCode": "20002",
+    "alarmName": "有人按门铃"
+  },
+  {
+    "alarmType": "calling_hangup",
+    "alarmCode": "20003",
+    "alarmName": "呼叫挂断"
+  },
+  {
+    "alarmType": "calling_accept",
+    "alarmCode": "20004",
+    "alarmName": "呼叫接通"
+  },
+  {
+    "alarmType": "watch_call",
+    "alarmCode": "20005",
+    "alarmName": "手表视频通话"
+  },
+  {
+    "alarmType": "watch_call2",
+    "alarmCode": "20006",
+    "alarmName": "视频通话呼叫"
+  },
+  {
+    "alarmType": "20007",
+    "alarmCode": "20007",
+    "alarmName": "呼叫通话"
+  },
+  {
+    "alarmType": "20008",
+    "alarmCode": "20008",
+    "alarmName": "家人语音呼叫"
+  },
+  {
+    "alarmType": "FaceModel",
+    "alarmCode": "20010",
+    "alarmName": "人脸智能建模"
+  },
+  {
+    "alarmType": "snapshot",
+    "alarmCode": "20011",
+    "alarmName": "抓拍记录"
+  },
+  {
+    "alarmType": "audiomsg",
+    "alarmCode": "30001",
+    "alarmName": "语音留言消息"
+  },
+  {
+    "alarmType": "videomsg",
+    "alarmCode": "30002",
+    "alarmName": "视频留言消息"
+  },
+  {
+    "alarmType": "offline",
+    "alarmCode": "30010",
+    "alarmName": "设备下线"
+  },
+  {
+    "alarmType": "InvalidTime",
+    "alarmCode": "30011",
+    "alarmName": "设备时间错误"
+  },
+  {
+    "alarmType": "AlmQuota",
+    "alarmCode": "30012",
+    "alarmName": "告警配额耗尽"
+  },
+  {
+    "alarmType": "OperatorSms",
+    "alarmCode": "30013",
+    "alarmName": "话费流量提醒"
+  },
+  {
+    "alarmType": "CR_CleaningFinished",
+    "alarmCode": "30014",
+    "alarmName": "清扫完成"
+  },
+  {
+    "alarmType": "CR_Trapped",
+    "alarmCode": "30015",
+    "alarmName": "扫地机被困住"
+  },
+  {
+    "alarmType": "CR_EdgeBrushTrapped",
+    "alarmCode": "30016",
+    "alarmName": "边刷缠绕"
+  },
+  {
+    "alarmType": "CR_WheelTrapped",
+    "alarmCode": "30017",
+    "alarmName": "轮子被缠绕"
+  },
+  {
+    "alarmType": "CR_CamCovered",
+    "alarmCode": "30018",
+    "alarmName": "镜头遮挡"
+  },
+  {
+    "alarmType": "CR_ChargingErr",
+    "alarmCode": "30019",
+    "alarmName": "充电异常"
+  },
+  {
+    "alarmType": "CR_AirDuctErr",
+    "alarmCode": "30020",
+    "alarmName": "风道异常、滤网堵塞或尘盒满"
+  },
+  {
+    "alarmType": "CR_DustBinUnset",
+    "alarmCode": "30021",
+    "alarmName": "集尘盒未安装"
+  },
+  {
+    "alarmType": "CR_ReplaceFilter",
+    "alarmCode": "30022",
+    "alarmName": "滤网该换了"
+  },
+  {
+    "alarmType": "CR_ReplaceEdgeBrush",
+    "alarmCode": "30023",
+    "alarmName": "边刷该换了"
+  },
+  {
+    "alarmType": "CR_CollisionBarErr",
+    "alarmCode": "30024",
+    "alarmName": "一直检测到碰撞"
+  },
+  {
+    "alarmType": "CR_DeviceErr",
+    "alarmCode": "30025",
+    "alarmName": "设备异常"
+  },
+  {
+    "alarmType": "CR_FailToReturnDock",
+    "alarmCode": "30026",
+    "alarmName": "返回充电座失败"
+  },
+  {
+    "alarmType": "CR_WheelSuspended",
+    "alarmCode": "30027",
+    "alarmName": "轮子被抬起了"
+  },
+  {
+    "alarmType": "SeriousUnderVoltage",
+    "alarmCode": "30028",
+    "alarmName": "电量严重不足"
+  },
+  {
+    "alarmType": "WaterPurifier_MRO",
+    "alarmCode": "30029",
+    "alarmName": "净水器MRO滤芯更换提醒"
+  },
+  {
+    "alarmType": "WaterPurifier_CF",
+    "alarmCode": "30030",
+    "alarmName": "净水器CF滤芯更换提醒"
+  },
+  {
+    "alarmType": "lowbattery_d",
+    "alarmCode": "30031",
+    "alarmName": "电量不足告警"
+  },
+  {
+    "alarmType": "UnderVoltage_d",
+    "alarmCode": "30032",
+    "alarmName": "电池电量低告警"
+  },
+  {
+    "alarmType": "DoorLock-BatteryLow_d",
+    "alarmCode": "30033",
+    "alarmName": "电量不足告警"
+  },
+  {
+    "alarmType": "lowBatVol_d",
+    "alarmCode": "30034",
+    "alarmName": "蓄电池电压低"
+  },
+  {
+    "alarmType": "BatteryLow",
+    "alarmCode": "30035",
+    "alarmName": "手表电量低，该充电了"
+  },
+  {
+    "alarmType": "DL-upgradeNotify",
+    "alarmCode": "30036",
+    "alarmName": "门锁升级确认提醒"
+  },
+  {
+    "alarmType": "userchangemsg",
+    "alarmCode": "30037",
+    "alarmName": "用户信息变更告警"
+  },
+  {
+    "alarmType": "work_inspection",
+    "alarmCode": "30049",
+    "alarmName": "工作巡检"
+  },
+  {
+    "alarmType": "RemindOpenLog",
+    "alarmCode": "30057",
+    "alarmName": "打开检测提醒"
+  },
+  {
+    "alarmType": "RemindCloseLog",
+    "alarmCode": "30058",
+    "alarmName": "关闭检测提醒"
+  },
+  {
+    "alarmType": "relayAddDet",
+    "alarmCode": "30060",
+    "alarmName": "继电器添加"
+  },
+  {
+    "alarmType": "relayDeleteDet",
+    "alarmCode": "30061",
+    "alarmName": "继电器删除"
+  },
+  {
+    "alarmType": "SdCardDamaged",
+    "alarmCode": "30064",
+    "alarmName": "SD卡未插/损坏"
+  },
+  {
+    "alarmType": "SdCardNotFormatted",
+    "alarmCode": "30065",
+    "alarmName": "SD卡未初始化"
+  },
+  {
+    "alarmType": "PIRFrequencyChanged",
+    "alarmCode": "30066",
+    "alarmName": "功能模式切换"
+  },
+  {
+    "alarmType": "Operation_prolonged_absence",
+    "alarmCode": "30067",
+    "alarmName": "长时间未出现提醒"
+  },
+  {
+    "alarmType": "account_security",
+    "alarmCode": "31000",
+    "alarmName": "帐号安全事件"
+  },
+  {
+    "alarmType": "terminal_replacement",
+    "alarmCode": "31001",
+    "alarmName": "终端绑定更换"
+  },
+  {
+    "alarmType": "terminal_delete",
+    "alarmCode": "31002",
+    "alarmName": "终端删除事件"
+  },
+  {
+    "alarmType": "NewDeviceShare",
+    "alarmCode": "31003",
+    "alarmName": "设备分享消息"
+  },
+  {
+    "alarmType": "NewFamilyShare",
+    "alarmCode": "31004",
+    "alarmName": "家庭分享消息"
+  },
+  {
+    "alarmType": "deviceTransfer",
+    "alarmCode": "31006",
+    "alarmName": "设备转移消息"
+  },
+  {
+    "alarmType": "Livebroadcasting",
+    "alarmCode": "32008",
+    "alarmName": "直播提醒"
+  },
+  {
+    "alarmType": "LiveLotterybroadcasting",
+    "alarmCode": "32010",
+    "alarmName": "直播提醒"
+  },
+  {
+    "alarmType": "CleanComplete",
+    "alarmCode": "32012",
+    "alarmName": "清洁完成"
+  },
+  {
+    "alarmType": "DockCommErr",
+    "alarmCode": "32013",
+    "alarmName": "基站与扫地机连接异常"
+  },
+  {
+    "alarmType": "InspectionComplete",
+    "alarmCode": "32014",
+    "alarmName": "巡检完成"
+  },
+  {
+    "alarmType": "InspectionAbnormalFinish",
+    "alarmCode": "32015",
+    "alarmName": "巡检异常结束"
+  },
+  {
+    "alarmType": "CleanWaterBoxUnsetup",
+    "alarmCode": "32016",
+    "alarmName": "清水箱未安装"
+  },
+  {
+    "alarmType": "DirtyWaterBoxUnsetup",
+    "alarmCode": "32017",
+    "alarmName": "污水箱未安装"
+  },
+  {
+    "alarmType": "CleanWaterBoxEmpty",
+    "alarmCode": "32018",
+    "alarmName": "清水箱无水"
+  },
+  {
+    "alarmType": "DirtyWaterBoxFull",
+    "alarmCode": "32019",
+    "alarmName": "污水箱满"
+  },
+  {
+    "alarmType": "WheelSuspended",
+    "alarmCode": "32020",
+    "alarmName": "轮子被抬起"
+  },
+  {
+    "alarmType": "WheelTrapped",
+    "alarmCode": "32021",
+    "alarmName": "轮子被缠绕"
+  },
+  {
+    "alarmType": "EdgeBrushTrapped",
+    "alarmCode": "32022",
+    "alarmName": "边刷被缠绕"
+  },
+  {
+    "alarmType": "RollBrushTwine",
+    "alarmCode": "32023",
+    "alarmName": "滚刷被缠绕"
+  },
+  {
+    "alarmType": "Trapped",
+    "alarmCode": "32025",
+    "alarmName": "受困"
+  },
+  {
+    "alarmType": "MopTryDrop",
+    "alarmCode": "32026",
+    "alarmName": "拖布盘脱落"
+  },
+  {
+    "alarmType": "MopUninstallErr",
+    "alarmCode": "32027",
+    "alarmName": "拖布卸载失败"
+  },
+  {
+    "alarmType": "LidarShieldErr",
+    "alarmCode": "32028",
+    "alarmName": "机身雷达异常"
+  },
+  {
+    "alarmType": "CliffErr",
+    "alarmCode": "32029",
+    "alarmName": "下视传感异常"
+  },
+  {
+    "alarmType": "RGBCovered",
+    "alarmCode": "32030",
+    "alarmName": "镜头被遮挡"
+  },
+  {
+    "alarmType": "DockPumpSewageFail",
+    "alarmCode": "32031",
+    "alarmName": "污水抽取异常"
+  },
+  {
+    "alarmType": "MopInstallErr",
+    "alarmCode": "32032",
+    "alarmName": "拖布安装失败"
+  },
+  {
+    "alarmType": "MopMotorStall",
+    "alarmCode": "32033",
+    "alarmName": "拖布被缠绕"
+  },
+  {
+    "alarmType": "CollisionBarErr",
+    "alarmCode": "32035",
+    "alarmName": "撞板卡住"
+  },
+  {
+    "alarmType": "DustBagFull",
+    "alarmCode": "32036",
+    "alarmName": "尘袋满"
+  },
+  {
+    "alarmType": "DustBoxFull",
+    "alarmCode": "32037",
+    "alarmName": "尘盒满"
+  },
+  {
+    "alarmType": "DustBoxOrBagUnset",
+    "alarmCode": "32038",
+    "alarmName": "未安装尘盒或尘袋"
+  },
+  {
+    "alarmType": "DustBoxUncover",
+    "alarmCode": "32039",
+    "alarmName": "激光雷达被遮挡"
+  },
+  {
+    "alarmType": "FailToReturnDock",
+    "alarmCode": "32040",
+    "alarmName": "回不到基站"
+  },
+  {
+    "alarmType": "DeviceErr",
+    "alarmCode": "32041",
+    "alarmName": "设备异常"
+  },
+  {
+    "alarmType": "EdgeBrushOverrude",
+    "alarmCode": "32042",
+    "alarmName": "边刷使用到期"
+  },
+  {
+    "alarmType": "RollBrushOverrude",
+    "alarmCode": "32043",
+    "alarmName": "滚刷使用到期"
+  },
+  {
+    "alarmType": "HepaOverrude",
+    "alarmCode": "32044",
+    "alarmName": "滤芯使用到期"
+  },
+  {
+    "alarmType": "MopOverrude",
+    "alarmCode": "32045",
+    "alarmName": "拖布使用到期"
+  },
+  {
+    "alarmType": "CleanSelf",
+    "alarmCode": "32046",
+    "alarmName": "清洁机身"
+  },
+  {
+    "alarmType": "RightLidarCover",
+    "alarmCode": "32047",
+    "alarmName": "沿边传感异常"
+  },
+  {
+    "alarmType": "CleanWaterBoxLow",
+    "alarmCode": "32048",
+    "alarmName": "清水箱缺水"
+  },
+  {
+    "alarmType": "DustBoxUnset",
+    "alarmCode": "32049",
+    "alarmName": "未安装尘盒"
+  },
+  {
+    "alarmType": "TwoBoxUnsetup",
+    "alarmCode": "32050",
+    "alarmName": "清水箱与污水箱均未安装"
+  },
+  {
+    "alarmType": "LocationFailure",
+    "alarmCode": "32051",
+    "alarmName": "重定位失败"
+  },
+  {
+    "alarmType": "NotCleanByException",
+    "alarmCode": "32052",
+    "alarmName": "设备故障，未执行预约清洁"
+  },
+  {
+    "alarmType": "NotInspectionByException",
+    "alarmCode": "32053",
+    "alarmName": "设备故障，未执行预约巡检"
+  },
+  {
+    "alarmType": "NotCleanByOtherTask",
+    "alarmCode": "32054",
+    "alarmName": "任务冲突未预约清洁"
+  },
+  {
+    "alarmType": "NotInspectionByOtherTask",
+    "alarmCode": "32055",
+    "alarmName": "任务冲突未预约巡检"
+  },
+  {
+    "alarmType": "NotCleanByRest",
+    "alarmCode": "32056",
+    "alarmName": "休息免打扰未预约清洁"
+  },
+  {
+    "alarmType": "NotInspectionByRest",
+    "alarmCode": "32057",
+    "alarmName": "休息免打扰未预约巡检"
+  },
+  {
+    "alarmType": "ThirdCaption",
+    "alarmCode": "40001",
+    "alarmName": "第三方抓图"
+  },
+  {
+    "alarmType": "Linkage",
+    "alarmCode": "40002",
+    "alarmName": "互联互通"
+  },
+  {
+    "alarmType": "familyGroupPush",
+    "alarmCode": "42001",
+    "alarmName": "家庭互动"
+  },
+  {
+    "alarmType": "intellectPassengerFlow",
+    "alarmCode": "50001",
+    "alarmName": "智能客流提醒"
+  }
+]

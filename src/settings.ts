@@ -3,7 +3,7 @@ import type { PlatformIdentifier, PlatformName, SRTPCryptoSuites } from 'homebri
 import type { Server, Socket } from 'net';
 import { defaultFfmpegPath } from '@homebridge/camera-utils';
 import { Type } from 'pick-port';
-import { StreamResponse } from './@types/devices.js';
+import { Stream } from './@types/devices.js';
 
 export const PLATFORM_NAME = 'YS7Platform';
 
@@ -12,15 +12,13 @@ export const PLUGIN_NAME = '@fantasytu/homebridge-ys7';
 export const ffmpegPathString = defaultFfmpegPath as unknown as string;
 
 export const defaultPrebufferDuration = 15000;
-  
+
+export const MOTION_DETECTED_TIMEOUT = 3000;
+
+export const DOORBELL_TRIGGER_TIMEOUT = 3000;
+
 export const PREBUFFER_LENGTH = 4000;
 export const FRAGMENTS_LENGTH = 4000;
-
-export interface AutomationReturn {
-  error: boolean
-  message: string
-  cooldownActive?: boolean
-}
 
 export interface YS7PlatformConfig {
   platform: PlatformName | PlatformIdentifier
@@ -31,10 +29,13 @@ export interface YS7PlatformConfig {
   skipOfflineDevices?: boolean
   skipEncryptedDevices?: boolean
   pollingInterval?: number
+  webhookPort?: number
+  webhookPath?: string
+  webhookSecret?: string
 }
 
 export interface VideoConfig {
-  stream: StreamResponse
+  stream: Stream
   maxStreams?: number
   ffmpegOptions?: string[]
   prebufferDuration?: number

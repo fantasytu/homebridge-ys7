@@ -14,12 +14,9 @@ enum StreamProtocol {
 }
 
 enum ExpireTime {
+  ONE_HOUR = 3600,
   ONE_DAY = 86400,
   ONE_WEEK = 604800,
-  ONE_MONTH = 2592000,
-  THREE_MONTHS = 7776000,
-  SIX_MONTHS = 15552000,
-  ONE_YEAR = 31536000,
 }
 
 export enum VideoEncodeType {
@@ -97,7 +94,7 @@ export class YS7Api {
         deviceSerial: deviceSerial, 
         channelNo: channelNo,
         protocol: StreamProtocol.HLS,
-        expireTime: ExpireTime.ONE_WEEK, 
+        expireTime: ExpireTime.ONE_DAY, 
         videoEncodeType: videoEncodeType,
       },
     );
@@ -158,7 +155,12 @@ export class YS7Api {
 
   async getChargingState(deviceSerial: string) {
     this.log.debug(`Fetching charging status for camera: ${deviceSerial}`);
-    return await this.request.request(Endpoints.DEVICE_CHARGING_STATE, { deviceSerial: deviceSerial }, 'GET');
+    try {
+      return await this.request.request(Endpoints.DEVICE_CHARGING_STATE, { deviceSerial: deviceSerial }, 'GET');
+    } catch (error) {
+      this.log.warn(`Failed to fetch charging state for ${deviceSerial}, returning default NOT_CHARGING state`);
+      return { valueInfo: { powerStatus: ChargingStates.NOT_CHARGING } };
+    }
   }
 
 }

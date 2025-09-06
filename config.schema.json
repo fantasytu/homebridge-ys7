@@ -2,40 +2,99 @@
   "pluginAlias": "YS7Platform",
   "pluginType": "platform",
   "singular": true,
-  "strictValidation": false,
+  "headerDisplay": "Homebridge plugin for YS7 Open Platform.",
+  "footerDisplay": "",
   "schema": {
     "type": "object",
     "properties": {
+      "name": {
+        "description": "Plugin name as displayed in the Homebridge log.",
+        "type": "string",
+        "required": true,
+        "default": "YS7 Platform"
+      },
       "appKey": {
-        "title": "appKey",
+        "description": "YS7 Open Platform App Key.",
         "type": "string",
         "required": true
       },
       "appSecret": {
-        "title": "appSecret",
+        "description": "YS7 Open Platform App Secret.",
         "type": "string",
         "required": true
       },
       "videoProcessor": {
-        "title": "videoProcessor",
+        "description": "The video processor used to decode and play video streams and record segments of video clips. Default is ffmpeg.",
         "type": "string",
         "required": false,
         "default": "ffmpeg"
       },
       "skipOfflineDevices": {
-        "title": "skipOfflineDevices",
+        "description": "Interval (in seconds) to poll zone player.  Default: disabled.",
         "type": "boolean",
         "required": false,
         "default": true
       },
       "pollingInterval": {
-        "title": "pollingInterval (seconds)",
-        "type": "number",
+        "description": "How often (in seconds) to poll devices for data updates (e.g., battery, indicator). 0 disables polling. Default: 60 seconds.",
+        "title": "Polling Interval",
+        "type": "integer",
         "required": false,
         "default": 60,
-        "minimum": 10,
-        "description": "How often to poll devices for battery and indicator state."
+        "minimum": 0
+      },
+      "webhookPath": {
+        "description": "Path for the local webhook server (must start with /). Leave empty to disable.",
+        "title": "Webhook path",
+        "type": "string",
+        "required": false
+      },
+      "webhookPort": {
+        "description": "Port for the local webhook server. Leave empty to disable.",
+        "title": "Webhook port",
+        "type": "integer",
+        "required": false,
+        "maximum": 65535
+      },
+      "webhookSecret": {
+        "description": "Secret used to verify/decrypt webhook payload (HmacSHA1 with body+timestamp).",
+        "title": "Webhook secret",
+        "type": "integer",
+        "required": false
       }
     }
-  }
+  },
+  "form": [
+    "name",
+    {
+      "type": "fieldset",
+      "title": "Credentials",
+      "description": "YS7 open platform app key and app secret. We will use it to retrieve data from the platform.",
+      "items": [
+        "appKey",
+        "appSecret"
+      ]
+    },
+    {
+      "type": "fieldset",
+      "expandable": true,
+      "title": "Data Updates",
+      "items": [
+        "pollingInterval",
+        "webhookPort",
+        "webhookPath",
+        "webhookSecret"
+      ]
+    },
+    {
+      "type": "fieldset",
+      "expandable": true,
+      "title": "Miscellaneous",
+      "description": "You can leave them as default or change them if you know exactly what they are and how they work.",
+      "items": [
+        "videoProcessor",
+        "skipOfflineDevices"
+      ]
+    }
+  ]
 }

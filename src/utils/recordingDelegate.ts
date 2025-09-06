@@ -25,9 +25,9 @@ import { APIEvent, AudioRecordingCodecType, H264Level, H264Profile } from 'homeb
 
 import { PreBuffer } from './prebuffer.js';
 
-import { MP4Atom, FFMpegFragmentedMP4Session, PREBUFFER_LENGTH, VideoConfig } from '../settings.js';
+import { MP4Atom, FFMpegFragmentedMP4Session, PREBUFFER_LENGTH } from '../settings.js';
 
-import { Device } from '../@types/devices.js';
+import { Device, Stream } from '../@types/devices.js';
 
 export async function readLength(readable: Readable, length: number): Promise<Buffer> {
   if (!length) {
@@ -45,20 +45,18 @@ export async function readLength(readable: Readable, length: number): Promise<Bu
     const onReadable = (): void => {
       const ret = readable.read(length) as Buffer | null;
       if (ret) {
-        readable.removeListener('readable', onReadable);
-        readable.removeAllListeners('end');
+        readable.removeAllListeners();
         resolve(ret);
       }
     };
 
-    const onEnd = (): void => {
-      readable.removeAllListeners('readable');
-      readable.removeListener('end', onEnd);
-      reject(new Error(`stream ended during read for minimum ${length} bytes`));
+    const onError = (err: Error): void => {
+      readable.removeAllListeners();
+      reject(err);
     };
 
     readable.on('readable', onReadable);
-    readable.on('end', onEnd);
+    readable.on('error', onError);
   });
 }
 
@@ -122,7 +120,7 @@ export class RecordingDelegate implements CameraRecordingDelegate {
   private readonly hap: HAP;
   private readonly log: Logger;
   private readonly device: Device;
-  private readonly videoConfig: VideoConfig;
+  private readonly getStream: () => Promise<Stream>;
   private process!: ChildProcess;
 
   private readonly videoProcessor;
@@ -130,12 +128,12 @@ export class RecordingDelegate implements CameraRecordingDelegate {
   private preBufferSession?: Mp4Session;
   private preBuffer?: PreBuffer;
 
-  constructor(log: Logger, api: API, device:Device, hap: HAP, videoProcessor: string, videoConfig: VideoConfig) {
+  constructor(log: Logger, api: API, device:Device, hap: HAP, videoProcessor: string, getStream: () => Promise<Stream>) {
     this.log = log;
     this.hap = hap;
     this.device = device;
     this.videoProcessor = videoProcessor;
-    this.videoConfig = videoConfig;
+    this.getStream = getStream;
 
     api.on(APIEvent.SHUTDOWN, () => {
       if (this.preBufferSession) {
@@ -146,12 +144,15 @@ export class RecordingDelegate implements CameraRecordingDelegate {
   }
 
   async startPreBuffer(): Promise<void> {
-    this.log.debug(`start prebuffer ${this.device.name}, prebuffer: ${this.videoConfig?.prebuffer}`);
-    if (!this.preBuffer && this.videoConfig?.stream?.url) {
-      const input = `-i ${this.videoConfig.stream.url}`;
-      this.preBuffer = new PreBuffer(this.log, input, this.device.name, this.videoProcessor);
-      if (!this.preBufferSession) {
-        this.preBufferSession = await this.preBuffer.startPreBuffer();
+    this.log.debug(`start prebuffer ${this.device.name}`);
+    if (!this.preBuffer) {
+      const stream = await this.getStream();
+      if (stream?.url) {
+        const input = `-i ${stream.url}`;
+        this.preBuffer = new PreBuffer(this.log, input, this.device.name, this.videoProcessor);
+        if (!this.preBufferSession) {
+          this.preBufferSession = await this.preBuffer.startPreBuffer();
+        }
       }
     }
   }
@@ -206,12 +207,15 @@ export class RecordingDelegate implements CameraRecordingDelegate {
 
     const ffmpegInput: Array<string> = [];
 
-    if (this.videoConfig?.prebuffer) {
+    if (this.preBuffer) {
       const fragmentLen = configuration.mediaContainerConfiguration.fragmentLength ?? PREBUFFER_LENGTH;
-      const input: Array<string> = this.preBuffer ? await this.preBuffer.getVideo(fragmentLen) : [];
+      const input: Array<string> = await this.preBuffer.getVideo(fragmentLen);
       ffmpegInput.push(...input);
-    } else if (this.videoConfig?.stream?.url) {
-      ffmpegInput.push('-i', this.videoConfig.stream.url);
+    } else {
+      const stream = await this.getStream();
+      if (stream?.url) {
+        ffmpegInput.push('-i', stream.url);
+      }
     }
 
     this.log.debug('Start recording...', this.device.name);

@@ -2,21 +2,23 @@
 
 import type { API, CharacteristicSetCallback, CharacteristicValue, DynamicPlatformPlugin, Logging, PlatformAccessory, PlatformConfig } from 'homebridge';
 
-import type { AutomationReturn } from './settings.js';
 import type { YS7PlatformConfig } from './settings.js';
 
 import { APIEvent, CharacteristicEventTypes, PlatformAccessoryEvent } from 'homebridge';
 
-import { PLUGIN_NAME, PLATFORM_NAME, VideoConfig } from './settings.js';
+import { PLUGIN_NAME, PLATFORM_NAME, DOORBELL_TRIGGER_TIMEOUT, MOTION_DETECTED_TIMEOUT } from './settings.js';
 
 import { Logger } from './utils/logger.js';
 import { StreamingDelegate } from './utils/streamingDelegate.js';
+import { Webhook } from './utils/webhook.js';
 
 import { YS7Api, LightStatus, ChargingStates, DefenceStatus } from './api/api.js';
 
 import { Device, DeviceResponse, DeviceEncryptionStatus, DeviceStatus, SupportedDeviceCategories, Capacity } from './@types/devices.js';
 
 import { ErrorMessages } from './api/errors.js';
+import { WebhookMessageHeader, WebhookMessageType } from './@types/webhook.js';
+
 
 export class YS7Platform implements DynamicPlatformPlugin {
   private readonly log: Logger;
@@ -26,7 +28,9 @@ export class YS7Platform implements DynamicPlatformPlugin {
   private readonly accessories: Map<string, PlatformAccessory> = new Map();
   private readonly motionTimers: Map<string, NodeJS.Timeout> = new Map();
   private readonly doorbellTimers: Map<string, NodeJS.Timeout> = new Map();
+  private readonly deviceReachability: Map<string, boolean> = new Map();
   private pollTimer?: NodeJS.Timeout;
+  private webhook?: Webhook;
 
   constructor(log: Logging, config: PlatformConfig, api: API) {
     this.log = new Logger(log);
@@ -59,15 +63,9 @@ export class YS7Platform implements DynamicPlatformPlugin {
   // configure hksv streaming
   async configureHKSV(device: Device, api:YS7Api, accessory: PlatformAccessory) {
     
-    this.log.debug('get streaming url', device.name);
-    const streamURL = await api.getStreamAddress(device.serial);
+    this.log.debug('configuring HKSV streaming', device.name);
 
-    const videoConfig: VideoConfig = {
-      stream: streamURL,
-      prebuffer: true,
-    };
-
-    const delegate = new StreamingDelegate(this.log, this.api, device, videoConfig, this.api.hap);
+    const delegate = new StreamingDelegate(this.log, this.api, device, this.api.hap, api);
 
     accessory.configureController(delegate.controller);
 
@@ -174,7 +172,7 @@ export class YS7Platform implements DynamicPlatformPlugin {
     doorbellTrigger
       .getCharacteristic(this.api.hap.Characteristic.On)
       .on(CharacteristicEventTypes.SET, (state: CharacteristicValue, callback: CharacteristicSetCallback) => {
-        this.doorbellHandler(accessory, state as boolean);
+        doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, state as boolean);
         callback();
       });
     accessory.addService(doorbellTrigger);
@@ -217,108 +215,6 @@ export class YS7Platform implements DynamicPlatformPlugin {
     }
   }
 
-  private doorbellHandler(accessory: PlatformAccessory, active = true): AutomationReturn {
-    const doorbell = accessory.getService(this.api.hap.Service.Doorbell);
-    if (doorbell) {
-      this.log.debug(`Switch doorbell ${active ? 'on.' : 'off.'}`, accessory.displayName);
-      const timeout = this.doorbellTimers.get(accessory.UUID);
-      if (timeout) {
-        clearTimeout(timeout);
-        this.doorbellTimers.delete(accessory.UUID);
-      }
-      const doorbellTrigger = accessory.getServiceById(this.api.hap.Service.Switch, 'DoorbellTrigger');
-      if (active) {
-        doorbell.updateCharacteristic(this.api.hap.Characteristic.ProgrammableSwitchEvent, this.api.hap.Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS);
-        if (doorbellTrigger) {
-          doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, true);
-          const timeoutConfig = 1;
-          const timer = setTimeout(() => {
-            this.log.debug('Doorbell handler timeout.', accessory.displayName);
-            this.doorbellTimers.delete(accessory.UUID);
-            doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
-          }, timeoutConfig * 1000);
-          this.doorbellTimers.set(accessory.UUID, timer);
-        }
-        return {
-          error: false,
-          message: 'Doorbell switched on.',
-        };
-      } else {
-        if (doorbellTrigger) {
-          doorbellTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
-        }
-        return {
-          error: false,
-          message: 'Doorbell switched off.',
-        };
-      }
-    } else {
-      return {
-        error: true,
-        message: 'Doorbell is not enabled for this camera.',
-      };
-    }
-  }
-
-  private motionHandler(accessory: PlatformAccessory, active = true, minimumTimeout = 0): AutomationReturn {
-    const motionSensor = accessory.getService(this.api.hap.Service.MotionSensor);
-    if (motionSensor) {
-      this.log.debug(`Switch motion detect ${active ? 'on.' : 'off.'}`, accessory.displayName);
-      const timeout = this.motionTimers.get(accessory.UUID);
-      if (timeout) {
-        clearTimeout(timeout);
-        this.motionTimers.delete(accessory.UUID);
-      }
-      const motionTrigger = accessory.getServiceById(this.api.hap.Service.Switch, 'MotionTrigger');
-      if (active) {
-        motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, true);
-        if (motionTrigger) {
-          motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, true);
-        }
-        // if (!timeout && config?.motionDoorbell) {
-        //   this.doorbellHandler(accessory, true);
-        // }
-        let timeoutConfig = 1;
-        if (timeoutConfig < minimumTimeout) {
-          timeoutConfig = minimumTimeout;
-        }
-        if (timeoutConfig > 0) {
-          const timer = setTimeout(() => {
-            this.log.debug('Motion handler timeout.', accessory.displayName);
-            this.motionTimers.delete(accessory.UUID);
-            motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, false);
-            if (motionTrigger) {
-              motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
-            }
-          }, timeoutConfig * 1000);
-          this.motionTimers.set(accessory.UUID, timer);
-        }
-        return {
-          error: false,
-          message: 'Motion switched on.',
-          cooldownActive: !!timeout,
-        };
-      } else {
-        motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, false);
-        if (motionTrigger) {
-          motionTrigger.updateCharacteristic(this.api.hap.Characteristic.On, false);
-        }
-        // if (config?.motionDoorbell) {
-        //   this.doorbellHandler(accessory, false);
-        // }
-        return {
-          error: false,
-          message: 'Motion switched off.',
-        };
-      }
-    } else {
-      return {
-        error: true,
-        message: 'Motion is not enabled for this camera.',
-      };
-    }
-  }
-
   private async formatDevices(api: YS7Api, devices: DeviceResponse[]): Promise<Device[]> {
     const formatedDevices: Device[] = [];
     const shouldSkipOffline = this.config.skipOfflineDevices ?? false;
@@ -338,11 +234,11 @@ export class YS7Platform implements DynamicPlatformPlugin {
       const skipOffline = shouldSkipOffline && device.status === DeviceStatus.OFFLINE;
 
       if (!supported) {
-        this.log.info(`${ErrorMessages.UNSUPPORTED_DEVICE_CATEGORY} ${device.parentCategory} : ${device.deviceName}`);
+        this.log.warn(`${ErrorMessages.UNSUPPORTED_DEVICE_CATEGORY} ${device.parentCategory} : ${device.deviceName}`);
       }
       
       if (skipOffline) {
-        this.log.info(`${ErrorMessages.OFFLINE_DEVICE}: ${device.deviceName}`);
+        this.log.warn(`${ErrorMessages.OFFLINE_DEVICE}: ${device.deviceName}`);
       }
 
       formatedDevices.push({
@@ -405,15 +301,195 @@ export class YS7Platform implements DynamicPlatformPlugin {
 
     // polling
     this.startPolling(ys7API);
+    
+    // webhook
+    this.startWebhook();
+  }
+  
+  private isWebhookConfigValid(config: YS7PlatformConfig): boolean {
+    return typeof config.webhookPort === 'number' 
+      && config.webhookPort >= 1 && config.webhookPort <= 65535 
+      && typeof config.webhookPath === 'string' && config.webhookPath.startsWith('/');
   }
 
+  private startWebhook() {
+    if (this.isWebhookConfigValid(this.config)) {
+      this.webhook = new Webhook(this.log, this.config.webhookPort!, this.config.webhookPath!, this.config.webhookSecret!, this.handleWebhookData.bind(this));
+    } else {
+      this.log.debug('Webhook server disabled (set webhookPort and webhookPath to enable)');
+    }
+  }
+
+
+  private async handleWebhookData(header: WebhookMessageHeader, payload: Record<string, unknown>): Promise<void> {
+    switch (header.type) {
+    case WebhookMessageType.Alarm:
+      this.handleAlarm(header, payload);
+      break;
+    case WebhookMessageType.OnOffLine:
+      this.handleOnOffLine(header, payload);
+      break;
+    case WebhookMessageType.DeviceStatus:
+      this.handleDeviceStatus(header, payload);
+      break;
+    default:
+      this.log.warn(`Unhandled webhook type: ${header.type}`);
+      break;
+    }
+  }
+
+  // todo: device status related to defence and schedules
+  private handleDeviceStatus(header: WebhookMessageHeader, payload: Record<string, unknown>): void {
+    this.log.debug('device status message received: ' + JSON.stringify(header) + JSON.stringify(payload));
+  }
+
+  private handleAlarm(header: WebhookMessageHeader, payload: Record<string, unknown>): void {
+    const deviceId = header.deviceId as string;
+    const alarmType = payload.alarmType as string;
+
+    let target: PlatformAccessory | undefined;
+    for (const [, accessory] of this.accessories) {
+      const device = accessory.context.device as Device | undefined;
+      if (device?.serial === deviceId) {
+        target = accessory;
+        break;
+      }
+    }
+    if (!target) {
+      this.log.warn(`Webhook device not found for serial: ${deviceId}`);
+      return;
+    }
+
+    const motionTypes = new Set(['pir',
+      'motiondetect',
+      'infrared',
+      'facedetection',
+      'fielddetection',
+      'babycry',
+      'highdensitydetection',
+      'loiterdetection',
+      'rundetection',
+      'enterareadetection',
+    ]);
+    const batteryTypes = new Set(['lowbattery']);
+    const doorbellTypes = new Set(['doorbell']);
+
+    if (motionTypes.has(alarmType)) {
+      this.handleAlarmTypeMotion(target);
+      this.log.debug(`Webhook motion triggered: ${alarmType}`, target.displayName);
+      return;
+    }
+    if (doorbellTypes.has(alarmType)) {
+      this.handleAlarmTypeDoorbell(target);
+      this.log.debug(`Webhook doorbell triggered: ${alarmType}`, target.displayName);
+      return;
+    }
+    if (batteryTypes.has(alarmType)) {
+      this.handleAlarmTypeBattery(target);
+      this.log.debug(`Webhook battery triggered: ${alarmType}`, target.displayName);
+      return;
+    }
+    this.log.debug(`Unhandled alarm type: ${alarmType}`, target.displayName);
+  }
+
+  private handleAlarmTypeDoorbell(accessory: PlatformAccessory) {
+    const doorbellService = accessory.getService(this.api.hap.Service.Doorbell);
+    if (doorbellService) {
+      doorbellService.updateCharacteristic(this.api.hap.Characteristic.On, true);
+      setTimeout(() => {
+        doorbellService.updateCharacteristic(this.api.hap.Characteristic.On, false);
+      }, DOORBELL_TRIGGER_TIMEOUT);
+    }
+  }
+
+  private handleAlarmTypeMotion(accessory: PlatformAccessory) {
+    const motionSensor = accessory.getService(this.api.hap.Service.MotionSensor);
+    if (motionSensor) {
+      motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, true);
+      setTimeout(() => {
+        motionSensor.updateCharacteristic(this.api.hap.Characteristic.MotionDetected, false);
+      }, MOTION_DETECTED_TIMEOUT);
+    }
+  }
+
+  private handleAlarmTypeBattery(accessory: PlatformAccessory) {
+    const batteryService = accessory.getService(this.api.hap.Service.Battery);
+    if (batteryService) {
+      batteryService.updateCharacteristic(this.api.hap.Characteristic.BatteryLevel, 100);
+    }
+  }
+
+  private handleOnOffLine(header: WebhookMessageHeader, payload: Record<string, unknown>): void {
+    const deviceSerial = payload.subSerial as string;
+    const status = payload.alarmType as string;
+    
+    // Find the target accessory
+    let target: PlatformAccessory | undefined;
+    for (const [, accessory] of this.accessories) {
+      const device = accessory.context.device as Device;
+      if (device.serial === deviceSerial) {
+        target = accessory;
+        break;
+      }
+    }
+    
+    if (!target) {
+      this.log.warn(`Device not found for serial: ${deviceSerial}`);
+      return;
+    }
+    
+    if (status === 'online') {
+      this.log.info(`Device ${deviceSerial} is online`);
+      this.deviceReachability.set(deviceSerial, true);
+      this.setAccessoryReachable(target, true);
+    } else {
+      this.log.warn(`Device ${deviceSerial} is offline`);
+      this.deviceReachability.set(deviceSerial, false);
+      this.setAccessoryReachable(target, false);
+    }
+  }
+
+  private async setAccessoryReachable(accessory: PlatformAccessory, reachable: boolean): Promise<void> {
+    const deviceName = accessory.displayName;
+    
+    if (!reachable) {
+      // Set all characteristics to return "No Response" error
+      accessory.services.forEach(service => {
+        service.characteristics.forEach(characteristic => {
+          try {
+            characteristic.updateValue(new Error('No Response'));
+          } catch (error) {
+            // Ignore errors when updating characteristics
+          }
+        });
+      });
+      this.log.debug(`${deviceName} set to unreachable`);
+    } else {
+      // Device is back online, trigger immediate polling for this device
+      this.log.debug(`${deviceName} set to reachable, triggering immediate poll`);
+      const device = accessory.context.device as Device;
+      const api = new YS7Api(this.config, this.log);
+      
+      // Just poll this specific device immediately with force update
+      await this.pollBatteryForAccessory(api, accessory, device);
+      await this.pollIndicatorForAccessory(api, accessory, device);
+    }
+  }
+
+
   private startPolling(api: YS7Api) {
-    const intervalSeconds = Math.max(10, this.config.pollingInterval ?? 60);
+    if (this.config.pollingInterval === 0) {
+      this.log.info('Polling disabled (pollingInterval = 0)');
+      return;
+    }
+
+    const configured = this.config.pollingInterval ?? 60;
+    const intervalSeconds = Math.max(10, configured);
     
     this.log.debug(`Starting polling every ${intervalSeconds}s`);
 
     this.pollTimer = setInterval(() => {
-      this.pollOnce(api).catch(err => this.log.error('Polling error', String(err)));
+      this.pollOnce(api);
     }, intervalSeconds * 1000);
   }
 
@@ -435,6 +511,12 @@ export class YS7Platform implements DynamicPlatformPlugin {
       return;
     }
 
+    // Skip polling if device is known to be offline
+    if (this.deviceReachability.get(device.serial) === false) {
+      this.log.debug(`Skipping battery poll for offline device: ${device.serial}`);
+      return;
+    }
+
     try {
       const status = (await api.getCameraStatus(device.serial)).battryStatus;
       if (status !== undefined) {
@@ -446,7 +528,7 @@ export class YS7Platform implements DynamicPlatformPlugin {
         this.log.debug(`Updating battery level: ${status}`);
       }
     } catch {
-      this.log.debug('Failed to poll battery status', accessory.displayName);
+      this.log.warn('Failed to poll battery status', accessory.displayName);
     }
 
     try {
@@ -465,7 +547,7 @@ export class YS7Platform implements DynamicPlatformPlugin {
       }
       this.log.debug(`Updating charging state: ${state}`);
     } catch {
-      this.log.debug('Failed to poll charging state', accessory.displayName);
+      this.log.warn('Failed to poll charging state', accessory.displayName);
     }
   }
 
@@ -476,12 +558,18 @@ export class YS7Platform implements DynamicPlatformPlugin {
       return;
     }
 
+    // Skip polling if device is known to be offline
+    if (this.deviceReachability.get(device.serial) === false) {
+      this.log.debug(`Skipping indicator poll for offline device: ${device.serial}`);
+      return;
+    }
+
     try {
       const status = (await api.getLightStatus(device.serial)).enable;
       indicatorService.updateCharacteristic(this.api.hap.Characteristic.On, status === LightStatus.ON);
       this.log.debug(`Updating indicator status: ${status}`);
     } catch {
-      this.log.debug('Failed to poll indicator status', accessory.displayName);
+      this.log.warn('Failed to poll indicator status', accessory.displayName);
     }
   }
 }

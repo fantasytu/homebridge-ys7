@@ -16,7 +16,7 @@ import type {
   VideoInfo,
 } from 'homebridge';
 
-import { PickPortOptions, ResolutionInfo, SessionInfo, VideoConfig, FRAGMENTS_LENGTH, PREBUFFER_LENGTH } from '../settings.js';
+import { PickPortOptions, ResolutionInfo, SessionInfo, FRAGMENTS_LENGTH, PREBUFFER_LENGTH } from '../settings.js';
 import type { Logger } from './logger.js';
 
 import { Buffer } from 'node:buffer';
@@ -37,7 +37,8 @@ import { pickPort } from 'pick-port';
 import { FfmpegProcess } from './ffmpeg.js';
 import { RecordingDelegate } from './recordingDelegate.js';
 
-import { Device } from '../@types/devices.js';
+import { Device, Stream } from '../@types/devices.js';
+import { YS7Api } from '../api/api.js';
 
 export interface ActiveSession {
   mainProcess?: FfmpegProcess
@@ -50,10 +51,11 @@ export class StreamingDelegate implements CameraStreamingDelegate {
   private readonly hap: HAP;
   private readonly log: Logger;
   private readonly device: Device;
-  private readonly videoConfig!: VideoConfig;
+  private stream?: Stream;
   private readonly videoProcessor: string = 'ffmpeg';
   private snapshotPromise?: Promise<Buffer>;
   private readonly api: API;
+  private readonly ys7Api: YS7Api;
 
   readonly controller: CameraController;
   recordingDelegate: RecordingDelegate | null = null;
@@ -63,12 +65,12 @@ export class StreamingDelegate implements CameraStreamingDelegate {
   ongoingSessions: Map<string, ActiveSession> = new Map();
   timeouts: Map<string, NodeJS.Timeout> = new Map();
 
-  constructor(log: Logger, api: API, device: Device, videoConfig: VideoConfig ,hap: HAP) {
+  constructor(log: Logger, api: API, device: Device, hap: HAP, ys7Api: YS7Api) {
     this.log = log;
     this.hap = hap;
     this.api = api;
     this.device = device;
-    this.videoConfig = videoConfig;
+    this.ys7Api = ys7Api;
 
     api.on(APIEvent.SHUTDOWN, () => {
       for (const session in this.ongoingSessions) {
@@ -92,7 +94,7 @@ export class StreamingDelegate implements CameraStreamingDelegate {
       };
       recordingCodecs.push(entry);
     }
-    this.recordingDelegate = new RecordingDelegate(this.log, this.api, this.device, this.hap, this.videoProcessor, this.videoConfig);
+    this.recordingDelegate = new RecordingDelegate(this.log, this.api, this.device, this.hap, this.videoProcessor, this.getStream.bind(this));
 
     const options: CameraControllerOptions = {
       cameraStreamCount: 2, // HomeKit requires at least 2 streams, but 1 is also just fine
@@ -128,7 +130,7 @@ export class StreamingDelegate implements CameraStreamingDelegate {
           ],
         },
       },
-      recording: /*! this.recording ? undefined : */ {
+      recording: {
         options: {
           prebufferLength: PREBUFFER_LENGTH,
           overrideEventTriggerOptions: [hap.EventTriggerOption.MOTION, hap.EventTriggerOption.DOORBELL],
@@ -165,9 +167,8 @@ export class StreamingDelegate implements CameraStreamingDelegate {
       },
     };
     this.controller = new hap.CameraController(options);
-    if (this.videoConfig.prebuffer) {
-      this.recordingDelegate?.startPreBuffer();
-    }
+    
+    this.recordingDelegate?.startPreBuffer();
   }
 
   private determineResolution(request: SnapshotRequest | VideoInfo): ResolutionInfo {
@@ -196,22 +197,24 @@ export class StreamingDelegate implements CameraStreamingDelegate {
     return resInfo;
   }
 
-  async fetchSnapshot(snapFilter?: string): Promise<Buffer> {
-    this.snapshotPromise = new Promise((resolve, reject) => {
-      const startTime = Date.now();
-      
-      const ffmpegArgs = `-i ${this.videoConfig.stream.url}`
-        + ` -frames:v 1${snapFilter ? ` -filter:v ${snapFilter}` : ''}`
-        + ' -f mjpeg -hide_banner -loglevel error pipe:1';
 
-      this.log.debug(
-        `Snapshot command: ${this.videoProcessor} ${ffmpegArgs}`,
-        this.device.name,
-      );
-      const ffmpeg = spawn(this.videoProcessor, ffmpegArgs.split(/\s+/), { env });
+  private async fetchSnapshot(snapFilter?: string): Promise<Buffer> {
+    const startTime = Date.now();
+    
+    const stream = await this.getStream();
+    const ffmpegArgs = `-i ${stream.url}`
+      + ` -frames:v 1${snapFilter ? ` -filter:v ${snapFilter}` : ''}`
+      + ' -f mjpeg -hide_banner -loglevel error pipe:1';
 
-      let snapshotBuffer = Buffer.alloc(0);
+    this.log.debug(
+      `Snapshot command: ${this.videoProcessor} ${ffmpegArgs}`,
+      this.device.name,
+    );
+    const ffmpeg = spawn(this.videoProcessor, ffmpegArgs.split(/\s+/), { env });
 
+    let snapshotBuffer = Buffer.alloc(0);
+
+    return new Promise<Buffer>((resolve, reject) => {
       ffmpeg.stdout.on('data', (data) => {
         snapshotBuffer = Buffer.concat([snapshotBuffer, data]);
       });
@@ -253,7 +256,6 @@ export class StreamingDelegate implements CameraStreamingDelegate {
         }
       });
     });
-    return this.snapshotPromise;
   }
 
   resizeSnapshot(snapshot: Buffer, resizeFilter?: string): Promise<Buffer> {
@@ -360,7 +362,10 @@ export class StreamingDelegate implements CameraStreamingDelegate {
   handleStreamRequest(request: StreamingRequest, callback: StreamRequestCallback): void {
     switch (request.type) {
     case StreamRequestTypes.START:
-      this.startStream(request, callback);
+      this.startStream(request, callback).catch(error => {
+        this.log.error(`Failed to start stream: ${error.message}`, this.device.name);
+        callback(error);
+      });
       break;
     case StreamRequestTypes.RECONFIGURE:
       this.log.debug(
@@ -376,7 +381,7 @@ export class StreamingDelegate implements CameraStreamingDelegate {
     }
   }
 
-  private startStream(request: StartStreamRequest, callback: StreamRequestCallback): void {
+  private async startStream(request: StartStreamRequest, callback: StreamRequestCallback): Promise<void> {
     const sessionInfo = this.pendingSessions.get(request.sessionID);
     if (sessionInfo) {
       const vcodec = 'libx264';
@@ -402,7 +407,8 @@ export class StreamingDelegate implements CameraStreamingDelegate {
         this.device.name,
       );
 
-      let ffmpegArgs = `-i ${this.videoConfig.stream.url}`;
+      const stream = await this.getStream();
+      let ffmpegArgs = `-i ${stream.url}`;
 
       ffmpegArgs // Video
         += ' -an -sn -dn'
@@ -524,5 +530,23 @@ export class StreamingDelegate implements CameraStreamingDelegate {
     }
     this.ongoingSessions.delete(sessionId);
     this.log.debug('Stopped video stream.', this.device.name);
+  }
+
+  public async getStream(): Promise<Stream> {
+    const timeUntilExpiry = new Date(this.stream?.expireTime || 0).getTime() - Date.now();
+    const sixtyMinutesInMs = 60 * 60 * 1000;
+
+    if (timeUntilExpiry <= sixtyMinutesInMs) {
+      this.log.debug('Stream URL expires soon or is expired, refreshing...', this.device.name);
+      
+      try {
+        this.stream = await this.ys7Api.getStreamAddress(this.device.serial);
+        this.log.debug('Stream URL refreshed successfully', this.device.name);
+      } catch (error) {
+        this.log.warn('Failed to refresh stream URL, using existing config', this.device.name);
+      }
+    }
+
+    return this.stream!;
   }
 }

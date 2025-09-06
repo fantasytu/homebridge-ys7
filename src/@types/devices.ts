@@ -25,7 +25,7 @@ export interface DeviceResponse {
     netAddress: string;
 }
 
-export interface StreamResponse {
+export interface Stream {
   id: string
   url: string
   expireTime: string

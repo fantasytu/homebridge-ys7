@@ -93,12 +93,12 @@ export default class YS7Request {
           return data;
         }
         
-        this.log.error(`${ErrorMessages.API_ERROR}, code = ${data.code}, msg = ${data.msg}`);
+        this.log.warn(`${ErrorMessages.API_ERROR}, code = ${data.code}, msg = ${data.msg}`);
 
         return Promise.reject(response.data);
       },
       (error) => {
-        this.log.error(`${ErrorMessages.API_ERROR}, error = ${error}`);
+        this.log.warn(`${ErrorMessages.API_ERROR}, error = ${error}`);
         return Promise.reject(error.response || error.message || error.toString());
       },
     );
