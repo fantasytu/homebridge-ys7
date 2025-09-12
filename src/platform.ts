@@ -452,17 +452,10 @@ export class YS7Platform implements DynamicPlatformPlugin {
   private async setAccessoryReachable(accessory: PlatformAccessory, reachable: boolean): Promise<void> {
     const deviceName = accessory.displayName;
     
+    // Set the accessory's reachable property
+    accessory._associatedHAPAccessory.reachable = reachable;
+    
     if (!reachable) {
-      // Set all characteristics to return "No Response" error
-      accessory.services.forEach(service => {
-        service.characteristics.forEach(characteristic => {
-          try {
-            characteristic.updateValue(new Error('No Response'));
-          } catch (error) {
-            // Ignore errors when updating characteristics
-          }
-        });
-      });
       this.log.debug(`${deviceName} set to unreachable`);
     } else {
       // Device is back online, trigger immediate polling for this device
